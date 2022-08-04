@@ -60,7 +60,7 @@ public class CamDrag : MonoBehaviour
             transform.position = oldPos + -pos * dragSpeed;                                         
         }
 
-        transform.position = new Vector3(Mathf.Clamp(transform.position.x, sideBounds[0], sideBounds[1]), Mathf.Clamp(transform.position.y, heightBounds[0], heightBounds[1]), transform.position.z);
+        transform.position = new Vector3(Mathf.Clamp(transform.position.x, sideBounds[0], sideBounds[1]), Mathf.Clamp(transform.position.y, heightBounds[0], heightBounds[1]), startpos.z + value);
 
         if(Input.GetMouseButtonUp(0))
         {
@@ -69,11 +69,11 @@ public class CamDrag : MonoBehaviour
 
         if (Input.GetAxis("Mouse ScrollWheel") > 0f ) // forward
         {
-            zoomIn(true); 
+            zoomIn(false); 
         }
         else if (Input.GetAxis("Mouse ScrollWheel") < 0f ) // backwards
         {
-            zoomIn(false);
+            zoomIn(true);
         }
     }
 
@@ -96,18 +96,18 @@ public class CamDrag : MonoBehaviour
 
         if(up)
         {
-            if(value - adding > maxAndMin[1])
+            if(value - adding > maxAndMin[0])
             {
                 value -= adding;
             }else{
-                value = maxAndMin[1];
+                value = maxAndMin[0];
             }
         }else{
-            if(value + adding < maxAndMin[0])
+            if(value + adding < maxAndMin[1])
             {
                 value += adding;
             }else{
-                value = maxAndMin[0];
+                value = maxAndMin[1];
             }
         }
 
@@ -127,7 +127,7 @@ public class CamDrag : MonoBehaviour
 
         //verticle
         float add1 = ((verticleBounds[0] - minverticleBounds[0]) / 100 * zoomProcentage);
-        float add2= ((verticleBounds[1] - minverticleBounds[1]) / 100 * zoomProcentage);
+        float add2 = ((verticleBounds[1] - minverticleBounds[1]) / 100 * zoomProcentage);
 
         heightBounds[0] = verticleBounds[0] - add1;
         heightBounds[1] = verticleBounds[1] - add2;
