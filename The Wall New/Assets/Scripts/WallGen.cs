@@ -7,12 +7,9 @@ public class WallGen : MonoBehaviour
 {
     [Header("Set Data")]
     [SerializeField] private Transform startPoint;
-    [SerializeField] private GameObject RoomPrefab;
     [SerializeField] private GameObject roomCreator;
-    [SerializeField] private Sprite[] roomImages;
-    [SerializeField] private Vector2 roomOffsets = new Vector2(35,100);
+    [SerializeField] private Vector2 roomOffsets = new Vector2(50,15);
     [SerializeField] private Vector2 wallDimensions = new Vector2(10,15);
-    [SerializeField] private Color[] roomColors = new Color[10];
     [SerializeField] private int[] bioms = new int[10];
 
     [Header("Private data")]
@@ -33,7 +30,7 @@ public class WallGen : MonoBehaviour
     {
         if(Input.GetMouseButtonDown(0))
         {
-            genWall();
+            // genWall();
         }
     }
 
@@ -58,12 +55,12 @@ public class WallGen : MonoBehaviour
             {
                 if(rooms[i,b] == null)
                 {
-                    rooms[i,b] = Instantiate(RoomPrefab,spawnPos,Quaternion.Euler(0,0,0),rowParrent) as GameObject;
+                    rooms[i,b] = Instantiate(roomCreator,spawnPos,Quaternion.Euler(0,0,0),rowParrent) as GameObject;
                 }
-                Image room = rooms[i,b].GetComponent<Image>();
-                resetRoom(room,i,b);//resets room
-                setWall(room,i,b);//sets walls
-                setRoof(room,i,b);//sets roofs
+                // Image room = rooms[i,b].GetComponent<Image>();
+                resetRoom(i,b);//resets room
+                setWall(i,b);//sets walls
+                setRoof(i,b);//sets roofs
                 spawnPos.x += roomOffsets.y;
             }
             spawnPos.x = startPoint.position.x;
@@ -80,11 +77,8 @@ public class WallGen : MonoBehaviour
         createPreRooms();
     }
 
-    private void resetRoom(Image room,int i, int b)
+    private void resetRoom(int i, int b)
     {
-        room.enabled = true;
-        room.sprite = roomImages[0];
-        room.color = roomColors[0];
         wallBroken[i,b] = 0;
         roofBroken[i,b] = 0;
         isSpecial[i,b] = 0;
@@ -93,7 +87,7 @@ public class WallGen : MonoBehaviour
         dispenserHeights[1] = 0;
     }
 
-    private void setWall(Image room,int i, int b)
+    private void setWall(int i, int b)
     {
         if(b + 1 == (int)wallDimensions.y)//right side of wall
         {
@@ -111,12 +105,12 @@ public class WallGen : MonoBehaviour
                 {
                     wallBroken[i,b] = 1;//broken
                 }
-                room.sprite = roomImages[1];
+                // room.sprite = roomImages[1];
             }
         }
     }
 
-    private void setRoof(Image room,int i, int b)
+    private void setRoof(int i, int b)
     {
         if(i + 1 == (int)wallDimensions.x)//top of wall room
         {
@@ -139,16 +133,16 @@ public class WallGen : MonoBehaviour
                 {   
                     if(roofBroken[i,b] == 2)//if roof is also broken
                     {
-                        room.enabled = false;
+                        // room.enabled = false;
                     }
                     else
                     {
-                        room.sprite = roomImages[2];
+                        // room.sprite = roomImages[2];
                     }
                 }
                 else
                 {
-                    room.sprite = roomImages[3];
+                    // room.sprite = roomImages[3];
                 }
             }
         }
@@ -183,7 +177,6 @@ public class WallGen : MonoBehaviour
                         if(isSpecial[i,b] == 0)
                         {
                             wallRoomIds[i,b] = newBiome;
-                            rooms[i,b].GetComponent<Image>().color = roomColors[newBiome];
                         }
                     }
                 }
@@ -212,9 +205,6 @@ public class WallGen : MonoBehaviour
         {
             for(int b=yStart; b<yStart + 4; b++)
             {
-                Image room =  rooms[i,b].GetComponent<Image>();
-                room.color = roomColors[10];
-                room.sprite = roomImages[4];
                 roofBroken[i,b] = 2;//roof completly gone
                 wallBroken[i,b] = 2;//wall completly removed
                 isSpecial[i,b] = 1;//sets slot to special market
@@ -226,12 +216,6 @@ public class WallGen : MonoBehaviour
     {
         dispenserHeights[0] = Random.Range(3,8);
         dispenserHeights[1] = Random.Range((int)wallDimensions.x-13,(int)wallDimensions.x - 3);
-      
-        for(int i=0; i<dispenserHeights.Length; i++)
-        {
-            rooms[dispenserHeights[i],0].GetComponent<Image>().color = roomColors[8];
-            rooms[dispenserHeights[i],(int)wallDimensions.y-1].GetComponent<Image>().color = roomColors[8];
-        }
     }
 
     private void createStart()//sets area's to discovered that can be seen from the start
@@ -241,7 +225,6 @@ public class WallGen : MonoBehaviour
         {
             if(i < 5)
             {
-                rooms[dispenserHeights[0],i].GetComponent<Image>().color = roomColors[11];
                 wallBroken[dispenserHeights[0],i] = 1;
                 checkUpStart(dispenserHeights[0],i);
             }
@@ -249,7 +232,6 @@ public class WallGen : MonoBehaviour
             {
                 if(wallBroken[dispenserHeights[0],i] != 0 && !stopedY)
                 {
-                    rooms[dispenserHeights[0],i].GetComponent<Image>().color = roomColors[11];
                     checkUpStart(dispenserHeights[0],i);
                 }
                 else
@@ -267,7 +249,8 @@ public class WallGen : MonoBehaviour
         {
             if(!stopped[0] && roofBroken[i,yPos] != 0)
             {
-                rooms[i,yPos].GetComponent<Image>().color = roomColors[11];
+                //set discovered
+                // rooms[i,yPos].GetComponent<Image>().color = roomColors[11];
             }
             else
             {
@@ -279,7 +262,8 @@ public class WallGen : MonoBehaviour
         {
             if(!stopped[1] && roofBroken[i,yPos] != 0)
             {
-                rooms[i,yPos].GetComponent<Image>().color = roomColors[11];
+                //set discovered
+                // rooms[i,yPos].GetComponent<Image>().color = roomColors[11];
             }
             else
             {

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 789805934914680361}
   - component: {fileID: 789805934914680360}
   - component: {fileID: 789805934914680363}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: BuildingGridHeight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -107,7 +107,7 @@ GameObject:
   - component: {fileID: 789805935046789953}
   - component: {fileID: 789805935046789952}
   - component: {fileID: 789805935046789955}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: RightSideWall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -200,7 +200,7 @@ GameObject:
   m_Component:
   - component: {fileID: 789805935320657147}
   - component: {fileID: 789805935320657144}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: RoomPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -251,7 +251,7 @@ GameObject:
   - component: {fileID: 789805935853602538}
   - component: {fileID: 789805935853602533}
   - component: {fileID: 789805935853602532}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Roof
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -346,7 +346,7 @@ GameObject:
   - component: {fileID: 789805935985484362}
   - component: {fileID: 789805935985484357}
   - component: {fileID: 789805935985484356}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: BackWall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
