@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class WallGen : MonoBehaviour
 {
     [Header("Set Data")]
+    [SerializeField] private Room roomScript;
     [SerializeField] private Transform startPoint;
     [SerializeField] private GameObject roomCreator;
     [SerializeField] private Vector2 roomOffsets = new Vector2(50,15);
@@ -67,14 +68,16 @@ public class WallGen : MonoBehaviour
             spawnPos.y += roomOffsets.x;
         }
 
+        createPreRooms();
+
         for(int i=0; i<wallRoomIds.GetLength(0); i++)//goes over it for the second time to set last things
         {
             for(int b=0; b<wallRoomIds.GetLength(1); b++)
             {
                 setBiomes(i,b);//sets biomes
+                rooms[i,b].GetComponent<Room>().generate(wallRoomIds[i,b],wallBroken[i,b],roofBroken[i,b],isSpecial[i,b],this,i,b);
             }
         }
-        createPreRooms();
     }
 
     private void resetRoom(int i, int b)
@@ -91,7 +94,7 @@ public class WallGen : MonoBehaviour
     {
         if(b + 1 == (int)wallDimensions.y)//right side of wall
         {
-            // room.color = roomColors[9];
+            wallBroken[i,b] = -1;//completly removed
         }
         else
         {
@@ -99,11 +102,11 @@ public class WallGen : MonoBehaviour
             {
                 if(Random.Range(0,20) > 13)
                 {
-                    wallBroken[i,b] = 2;//completly removed
+                    wallBroken[i,b] = -1;//completly removed
                 }
                 else
                 {
-                    wallBroken[i,b] = 1;//broken
+                    wallBroken[i,b] = Random.Range(1,roomScript.Walls.Length);//broken
                 }
                 // room.sprite = roomImages[1];
             }
@@ -112,9 +115,9 @@ public class WallGen : MonoBehaviour
 
     private void setRoof(int i, int b)
     {
-        if(i + 1 == (int)wallDimensions.x)//top of wall room
+        if(i == 0)//top of wall room
         {
-            // room.color = roomColors[9];
+            roofBroken[i,b] = -1;//completly gone
         }
         else
         {
@@ -122,16 +125,16 @@ public class WallGen : MonoBehaviour
             {
                 if(Random.Range(0,20) > 15)
                 {
-                    roofBroken[i,b] = 2;//completly gone
+                    roofBroken[i,b] = -1;//completly gone
                 }
                 else
                 {
-                    roofBroken[i,b] = 1;//broken
+                    roofBroken[i,b] = Random.Range(1,roomScript.Roofs.Length);//broken
                 }
 
-                if(wallBroken[i,b] == 2)
+                if(wallBroken[i,b] == -1)
                 {   
-                    if(roofBroken[i,b] == 2)//if roof is also broken
+                    if(roofBroken[i,b] == -1)//if roof is also broken
                     {
                         // room.enabled = false;
                     }
@@ -150,9 +153,12 @@ public class WallGen : MonoBehaviour
 
     private void setBiomes(int i, int b)
     {
-        if(wallRoomIds[i,b] == 0 && isSpecial[i,b] == 0)//if its not a biome already // if its not a special area
+        if(Random.Range(0,5) > 2)
         {
-            setBiomeSpread(bioms[Random.Range(0,bioms.Length)],i,b);
+            if(wallRoomIds[i,b] == 0 && isSpecial[i,b] == 0)//if its not a biome already // if its not a special area
+            {
+                setBiomeSpread(bioms[Random.Range(0,bioms.Length)],i,b);
+            }
         }
     }
 
@@ -160,7 +166,7 @@ public class WallGen : MonoBehaviour
     {
         int xStart = Random.Range(0,xPos);
         int xEnd = Random.Range(xPos,(int)wallDimensions.x);
-        int maxLength = Random.Range(2,5);
+        int maxLength = Random.Range(2,6);
         int[] counts = new int[2];
         for(int i=xPos; i<wallDimensions.x; i++)
         {
@@ -171,7 +177,8 @@ public class WallGen : MonoBehaviour
                 int yEnd = Random.Range(yPos,(int)wallDimensions.y+1);
                 for(int b=yStart; b<yEnd; b++)
                 {
-                    if(counts[1] < maxLength)
+                    int maxLength2 = Random.Range(3,4);
+                    if(counts[1] < maxLength2)
                     {
                         counts[1] ++;
                         if(isSpecial[i,b] == 0)
@@ -180,6 +187,7 @@ public class WallGen : MonoBehaviour
                         }
                     }
                 }
+                counts[1] = 0;
             }
         }
     }
@@ -194,19 +202,36 @@ public class WallGen : MonoBehaviour
 
     private void createMarket()
     {   
-        int xStart = Random.Range(0,(int)wallDimensions.x-4);
+        int xStart = Random.Range(0,(int)wallDimensions.x-8);
         int yStart = Random.Range(1,(int)wallDimensions.y-4);
         while(Mathf.Abs(xStart - dispenserHeights[0]) < 5)//makes sure the market is always at least 5 in height away from the starting spot
         {
             xStart = Random.Range(0,(int)wallDimensions.x-4);
         }
         
-        for(int i=xStart; i<xStart + 4; i++)
+        for(int i=xStart; i<xStart + 5; i++)
         {
             for(int b=yStart; b<yStart + 4; b++)
             {
-                roofBroken[i,b] = 2;//roof completly gone
-                wallBroken[i,b] = 2;//wall completly removed
+                if(b != yStart + 3)
+                {
+                    wallBroken[i,b] = -1;
+                }
+                else
+                {
+                    setWall(i,b);
+                    // wallBroken[i,b] = Random.Range(1,roomScript.Walls.Length);
+                }
+
+                if(i != xStart)
+                {
+                    roofBroken[i,b] = -1;
+                }
+                else
+                { 
+                    roofBroken[i,b] = 0;
+                }
+
                 isSpecial[i,b] = 1;//sets slot to special market
             }
         }
@@ -225,7 +250,7 @@ public class WallGen : MonoBehaviour
         {
             if(i < 5)
             {
-                wallBroken[dispenserHeights[0],i] = 1;
+                wallBroken[dispenserHeights[0],i] = Random.Range(1,roomScript.Walls.Length);
                 checkUpStart(dispenserHeights[0],i);
             }
             else

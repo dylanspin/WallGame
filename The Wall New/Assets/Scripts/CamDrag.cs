@@ -10,7 +10,7 @@ public class CamDrag : MonoBehaviour
     [SerializeField] private float[] minverticleBounds = new float[2];//max zoom horizontal
     private float[] heightBounds = new float[2];
     private float[] sideBounds = new float[2];
-    [SerializeField] private float dragSpeed = 3;//speed of the camera drag
+    [SerializeField] private float[] dragSpeeds = new float[2];//speed of the camera drag
     [SerializeField] private Camera cam;
     [SerializeField] private LayerMask roomMask;
     private bool dragging = false;
@@ -18,6 +18,7 @@ public class CamDrag : MonoBehaviour
     private Vector3 panOrigin;
     [SerializeField] private float zoomInValue = 0.5f;
     private float value = 0;
+    private float dragSpeed = 3;//speed of the camera drag
     [SerializeField] private float[] maxAndMin = new float[2]; ///max zoom in and out values
     private Vector3 startpos;
 
@@ -29,22 +30,7 @@ public class CamDrag : MonoBehaviour
     
     private void Update()
     {
-        // if(Input.GetMouseButtonDown(1))///right mouse button ///later on needs to be tap on the screen
-        // { 
-        //     RaycastHit hit; 
-        //     Ray ray = cam.ScreenPointToRay(Input.mousePosition); //////later on needs to be the position of the tap on the screen
-        //     if(Physics.Raycast(ray,out hit,200.0f,roomMask)) 
-        //     {
-        //         if(hit.transform.tag == "Room") 
-        //         {
-        //             Transform roomCenterPoint = hit.transform.parent.transform.GetChild(0).transform;
-        //             setZoomLevel(-1.8f);
-        //             Vector3 newPos = new Vector3(roomCenterPoint.position.x,roomCenterPoint.position.y,this.transform.position.z);
-        //             // this.transform.position = roomCenterPoint.position;
-        //             this.transform.position = newPos;
-        //         }
-        //     }
-        // }
+        selectRoom();
 
         if(Input.GetMouseButtonDown(0))///left mouse button but later on needs to be drag
         {
@@ -77,15 +63,34 @@ public class CamDrag : MonoBehaviour
         }
     }
 
+    private void selectRoom()
+    {
+        if(Input.GetMouseButtonDown(1))
+        { 
+            RaycastHit hit; 
+            Ray ray = cam.ScreenPointToRay(Input.mousePosition); //////later on needs to be the position of the tap on the screen
+            Debug.DrawRay(Input.mousePosition, transform.forward * 800, Color.green);
+            if(Physics.Raycast(ray,out hit,800.0f,roomMask)) 
+            {
+                Transform roomCenterPoint = hit.transform.parent.transform.GetChild(0).transform;
+                setZoomLevel(160f);
+                Vector3 newPos = new Vector3(roomCenterPoint.position.x,roomCenterPoint.position.y,this.transform.position.z);
+                newPos.y += 5;
+                this.transform.position = newPos;
+            }
+        }
+    }
+
     private void setZoomLevel(float amount)
     {
-        if(amount <= maxAndMin[0] | amount >= maxAndMin[1])
+        Debug.Log(maxAndMin[0] + " " + maxAndMin[1]);
+        if(amount >= maxAndMin[0] | amount <= maxAndMin[1])
         {
             value  = amount;
             setZoom(value);
-        
             transform.localPosition = new Vector3(cam.transform.position.x,cam.transform.position.y,startpos.z + value);
         }else{
+            Debug.Log("To much");
             ///to much zoom
         }
     }
@@ -124,6 +129,8 @@ public class CamDrag : MonoBehaviour
     public void setZoom(float levelZoom)//needs to be optimizeddddd//////////////////////
     {
         float zoomProcentage = ((levelZoom - maxAndMin[1]) * 100) / (maxAndMin[0] - maxAndMin[1]);
+
+        dragSpeed = dragSpeeds[0] - ((dragSpeeds[0] - dragSpeeds[1]) / 100 * zoomProcentage);
 
         //verticle
         float add1 = ((verticleBounds[0] - minverticleBounds[0]) / 100 * zoomProcentage);
