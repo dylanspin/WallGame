@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1934713255411892687}
+  - component: {fileID: -3231683394282138540}
   m_Layer: 0
   m_Name: Roof-8
   m_TagString: Untagged
@@ -31,6 +32,26 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-3231683394282138540
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1266263389741554549}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6fdd50cfabd57364e822feb6b42b543c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  row1: 0100000000000000000000
+  row2: 0100000000000000000000
+  row3: 0100000000010101010101
+  row4: 0101010101010101010101
+  rowB1: 0000000000000000000000
+  rowB2: 0000000000000000000000
+  rowB3: 0000000000000000000000
+  rowB4: 0000000000000000000000
 --- !u!1 &7791051675489526700
 GameObject:
   m_ObjectHideFlags: 0

@@ -63,6 +63,18 @@ public class Room : MonoBehaviour
         }
     }
 
+    public FloorInfo getFloor()
+    {
+        if(spawnedRoof)
+        {
+            return spawnedRoof.GetComponent<FloorInfo>();
+        }
+        else
+        {
+            return null;
+        }
+    }
+
     public Transform getBuildGrid()
     {
         return buildingGrid;

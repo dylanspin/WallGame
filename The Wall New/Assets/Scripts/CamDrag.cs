@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class CamDrag : MonoBehaviour
 {
+    [Header("Scripts")]
+    [SerializeField] private Building buildScript;
+    
+    [Header("Movement stuff")]
+    //max dimensions 
     [SerializeField] private float[] horizontalBounds = new float[2];//max zoom horizontal
     [SerializeField] private float[] minHorizontal = new float[2];//min zoom horizontal
     [SerializeField] private float[] verticleBounds = new float[2];//max zoom verticle
@@ -72,13 +77,20 @@ public class CamDrag : MonoBehaviour
             Debug.DrawRay(Input.mousePosition, transform.forward * 800, Color.green);
             if(Physics.Raycast(ray,out hit,800.0f,roomMask)) 
             {
+                Room newRoom = hit.transform.parent.GetComponent<Room>();
                 Transform roomCenterPoint = hit.transform.parent.transform.GetChild(0).transform;
                 setZoomLevel(160f);
                 Vector3 newPos = new Vector3(roomCenterPoint.position.x,roomCenterPoint.position.y,this.transform.position.z);
                 newPos.y += 5;
                 this.transform.position = newPos;
+                showBuilding(newRoom);
             }
         }
+    }
+
+    private void showBuilding(Room newRoom)
+    {
+        buildScript.setBuild(newRoom);
     }
 
     private void setZoomLevel(float amount)
@@ -106,6 +118,14 @@ public class CamDrag : MonoBehaviour
                 value -= adding;
             }else{
                 value = maxAndMin[0];
+            }
+            
+            if(buildScript.shows())
+            {
+                if(value < 160f)
+                {
+                    buildScript.stopBuild();
+                }
             }
         }else{
             if(value + adding < maxAndMin[1])

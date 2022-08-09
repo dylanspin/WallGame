@@ -13,6 +13,9 @@ public class WallGen : MonoBehaviour
     [SerializeField] private Vector2 wallDimensions = new Vector2(10,15);
     [SerializeField] private int[] bioms = new int[10];
 
+    [Header("Scripts")]
+    [SerializeField] private DispenserManager dispenserScript;
+
     [Header("Private data")]
     private int[,] wallRoomIds = new int[10,15];
     private int[,] wallBroken = new int[10,15];
@@ -241,6 +244,8 @@ public class WallGen : MonoBehaviour
     {
         dispenserHeights[0] = Random.Range(3,8);
         dispenserHeights[1] = Random.Range((int)wallDimensions.x-13,(int)wallDimensions.x - 3);
+
+        dispenserScript.setRooms(dispenserHeights);
     }
 
     private void createStart()//sets area's to discovered that can be seen from the start
