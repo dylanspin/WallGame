@@ -146,6 +146,7 @@ MonoBehaviour:
   wallPoint: {fileID: 2320802217871058146}
   roofPoint: {fileID: 6280080148733513620}
   buildingGrid: {fileID: 789805934914680362}
+  wallDecor: {fileID: 789805935985484359}
   Roofs:
   - {fileID: 8247408513145620072, guid: 94a78dfb06e4512468bd3d1cd23f26eb, type: 3}
   - {fileID: 6988892436644044246, guid: a4b4a4beff3ca424d9310f7707551a4a, type: 3}
@@ -198,7 +199,10 @@ MonoBehaviour:
   - {fileID: 5888739567500929169, guid: b4b4061b87bc39f4baea38992c27023d, type: 3}
   - {fileID: 2528878457430412280, guid: 669a8b4968022954ca385171fcb7f9d8, type: 3}
   - {fileID: 2334915761858615610, guid: 723862648e7d9d64da58852cffc44dc1, type: 3}
-  WallDecorations: []
+  WallStains:
+  - {fileID: 912715294994556644, guid: 5870da0fe585cd448bab1c5233205d9a, type: 3}
+  - {fileID: 912715294994556644, guid: 5870da0fe585cd448bab1c5233205d9a, type: 3}
+  specialWallDecor: []
   biomeMaterials:
   - {fileID: 2100000, guid: ef6894f5e09a0a641b97b82ef2c412ee, type: 2}
   - {fileID: 2100000, guid: ef6894f5e09a0a641b97b82ef2c412ee, type: 2}

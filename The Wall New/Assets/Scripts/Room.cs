@@ -9,11 +9,13 @@ public class Room : MonoBehaviour
     [SerializeField] private Transform wallPoint;
     [SerializeField] private Transform roofPoint;
     [SerializeField] private Transform buildingGrid;
+    [SerializeField] private Transform wallDecor;
     
     [Header("SpawnObject")]
     [SerializeField] public GameObject[] Roofs;
     [SerializeField] public GameObject[] Walls;
-    [SerializeField] public GameObject[] WallDecorations;
+    [SerializeField] public GameObject[] WallStains;
+    [SerializeField] public GameObject[] specialWallDecor;
 
     [Header("Data")]
     [SerializeField] public Material[] biomeMaterials;
@@ -25,10 +27,10 @@ public class Room : MonoBehaviour
     private int yPos = 0;
     private GameObject spawnedWall;
     private GameObject spawnedRoof;
-    private GameObject wallDecorations;
+    private GameObject[] spawnedWDecor = new GameObject[5];//wall stains and plants spawn ids
     private WallGen genScript;
 
-    public void generate(int newBiome,int wall,int roof,int special,WallGen newScript,int x,int y)
+    public void generate(int newBiome,int wall,int[] wDecorId,int roof,int special,WallGen newScript,int x,int y)
     {
         xPos = x;
         yPos = y;
@@ -38,10 +40,25 @@ public class Room : MonoBehaviour
             spawnedWall = Instantiate(Walls[wall],wallPoint.position,Quaternion.Euler(0,0,0),wallPoint) as GameObject;
         }
 
+        int decorOffset = -15;
+        for(int i=0; i<wDecorId.Length; i++)
+        {
+            Vector3 spawnPos = wallDecor.position;
+            spawnPos.x += decorOffset;
+            if(wDecorId[i] > 0)
+            {
+                spawnedWDecor[i] = Instantiate(WallStains[wDecorId[i]],spawnPos,Quaternion.Euler(0,0,0),wallPoint) as GameObject;
+            }
+            decorOffset += 15;
+        }
+
         if(roof > -1)//if not removed
         {   
             spawnedRoof = Instantiate(Roofs[roof],roofPoint.position,Quaternion.Euler(0,0,0),roofPoint) as GameObject;
-        }
+            // spawnedRoof.GetComponent<createNav>().bake();
+        }   
+
+        // wallDecor
 
         setbiome(newBiome);
         specialId = special;

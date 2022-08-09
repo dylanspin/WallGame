@@ -19,6 +19,7 @@ public class WallGen : MonoBehaviour
     [Header("Private data")]
     private int[,] wallRoomIds = new int[10,15];
     private int[,] wallBroken = new int[10,15];
+    private int[,,] wallDecor = new int[10,15,4];
     private int[,] roofBroken = new int[10,15];
     private int[,] isSpecial =  new int[10,15];//if its indestructable story areae
     private int[] dispenserHeights = new int[2];
@@ -42,6 +43,7 @@ public class WallGen : MonoBehaviour
     {
         wallRoomIds = new int[(int)wallDimensions.x,(int)wallDimensions.y];
         wallBroken = new int[(int)wallDimensions.x,(int)wallDimensions.y];
+        wallDecor = new int[(int)wallDimensions.x,(int)wallDimensions.y,4];
         roofBroken = new int[(int)wallDimensions.x,(int)wallDimensions.y];
         isSpecial = new int[(int)wallDimensions.x,(int)wallDimensions.y];
         rooms = new GameObject[(int)wallDimensions.x,(int)wallDimensions.y];
@@ -78,7 +80,9 @@ public class WallGen : MonoBehaviour
             for(int b=0; b<wallRoomIds.GetLength(1); b++)
             {
                 setBiomes(i,b);//sets biomes
-                rooms[i,b].GetComponent<Room>().generate(wallRoomIds[i,b],wallBroken[i,b],roofBroken[i,b],isSpecial[i,b],this,i,b);
+                setDecor(i,b);
+                int[] wallAllDecor = {wallDecor[i,b,0],wallDecor[i,b,1],wallDecor[i,b,2],wallDecor[i,b,3]};//wall decor array
+                rooms[i,b].GetComponent<Room>().generate(wallRoomIds[i,b],wallBroken[i,b],wallAllDecor,roofBroken[i,b],isSpecial[i,b],this,i,b);
             }
         }
     }
@@ -91,6 +95,20 @@ public class WallGen : MonoBehaviour
         wallRoomIds[i,b] = 0;
         dispenserHeights[0] = 0;
         dispenserHeights[1] = 0;
+    }
+
+    private void setDecor(int i, int b)
+    {
+        for(int z=0; z<2; z++)
+        {
+            if(Random.Range(0,20) > 13)
+            {
+                //needs biome checks with wallRoomIds[i,b]
+                wallDecor[i,b,z] = Random.Range(1,roomScript.WallStains.Length);//wall decor
+            }
+        }
+
+        // wallDecor[i,b,3] = 1;///sets extra top layer of special plants or biome related stuff
     }
 
     private void setWall(int i, int b)

@@ -40,13 +40,15 @@
      <Compile Include="Assets\Scripts\UiController.cs" />
      <Compile Include="Assets\Scripts\Room.cs" />
      <Compile Include="Assets\Scripts\GameController.cs" />
-     <Compile Include="Assets\Scripts\FloorInfo.cs" />
+     <Compile Include="Assets\Scripts\Building\FloorInfo.cs" />
      <Compile Include="Assets\Scripts\WallGen.cs" />
-     <Compile Include="Assets\Scripts\Grid.cs" />
+     <Compile Include="Assets\Scripts\Building\Grid.cs" />
      <Compile Include="Assets\Scripts\CamDrag.cs" />
-     <Compile Include="Assets\Scripts\Building.cs" />
-     <Compile Include="Assets\Scripts\FollowCam.cs" />
      <Compile Include="Assets\Scripts\DispenserManager.cs" />
+     <Compile Include="Assets\Scripts\Building\Building.cs" />
+     <Compile Include="Assets\Scripts\FollowCam.cs" />
+     <Compile Include="Assets\Scripts\AI\createNav.cs" />
+     <Compile Include="Assets\Scripts\Building\build.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
@@ -718,6 +720,22 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="NavMeshComponentsExamples.csproj">
+      <Project>{be92d258-7e1f-4714-d2f1-2632c0b24eac}</Project>
+      <Name>NavMeshComponentsExamples</Name>
+    </ProjectReference>
+    <ProjectReference Include="NavMeshComponents.csproj">
+      <Project>{df04aa20-cc9f-5828-e4c8-6b23e8fbc329}</Project>
+      <Name>NavMeshComponents</Name>
+    </ProjectReference>
+    <ProjectReference Include="NavMeshComponentsEditor.csproj">
+      <Project>{b881502a-2aa6-9a8d-b0ae-000a321c5d11}</Project>
+      <Name>NavMeshComponentsEditor</Name>
+    </ProjectReference>
+    <ProjectReference Include="NavMeshComponentsExamplesEditor.csproj">
+      <Project>{a58d674e-3fad-4e72-6dec-9a8a8f841fcf}</Project>
+      <Name>NavMeshComponentsExamplesEditor</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
