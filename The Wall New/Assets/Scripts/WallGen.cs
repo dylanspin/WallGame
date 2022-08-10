@@ -17,13 +17,14 @@ public class WallGen : MonoBehaviour
     [SerializeField] private DispenserManager dispenserScript;
 
     [Header("Private data")]
-    private int[,] wallRoomIds = new int[10,15];
-    private int[,] wallBroken = new int[10,15];
-    private int[,,] wallDecor = new int[10,15,4];
-    private int[,] roofBroken = new int[10,15];
+    private int[,] wallRoomIds = new int[10,15];//room biome data
+    private int[,] wallBroken = new int[10,15];//right wall data
+    private int[,,] wallDecor = new int[10,15,4];//back wall decor ids
+    private int[,,,] roomBuild = new int[10,15,4,11];//Grid Build data
+    private int[,] roofBroken = new int[10,15];//floor data
     private int[,] isSpecial =  new int[10,15];//if its indestructable story areae
-    private int[] dispenserHeights = new int[2];
-    private GameObject[,] rooms = new GameObject[10,15];
+    private int[] dispenserHeights = new int[2];//height positions of the item dispensers
+    private GameObject[,] rooms = new GameObject[10,15];//spawned rooms
 
     private void Start()
     {
@@ -44,6 +45,7 @@ public class WallGen : MonoBehaviour
         wallRoomIds = new int[(int)wallDimensions.x,(int)wallDimensions.y];
         wallBroken = new int[(int)wallDimensions.x,(int)wallDimensions.y];
         wallDecor = new int[(int)wallDimensions.x,(int)wallDimensions.y,4];
+        roomBuild = new int[(int)wallDimensions.x,(int)wallDimensions.y,4,11];
         roofBroken = new int[(int)wallDimensions.x,(int)wallDimensions.y];
         isSpecial = new int[(int)wallDimensions.x,(int)wallDimensions.y];
         rooms = new GameObject[(int)wallDimensions.x,(int)wallDimensions.y];
@@ -80,9 +82,9 @@ public class WallGen : MonoBehaviour
             for(int b=0; b<wallRoomIds.GetLength(1); b++)
             {
                 setBiomes(i,b);//sets biomes
-                setDecor(i,b);
+                setDecor(i,b);//set wall decor
                 int[] wallAllDecor = {wallDecor[i,b,0],wallDecor[i,b,1],wallDecor[i,b,2],wallDecor[i,b,3]};//wall decor array
-                rooms[i,b].GetComponent<Room>().generate(wallRoomIds[i,b],wallBroken[i,b],wallAllDecor,roofBroken[i,b],isSpecial[i,b],this,i,b);
+                rooms[i,b].GetComponent<Room>().generate(wallRoomIds[i,b],wallBroken[i,b],wallAllDecor,roofBroken[i,b],returnGridInfo(i,b),isSpecial[i,b],this,i,b);
             }
         }
     }
@@ -99,12 +101,23 @@ public class WallGen : MonoBehaviour
 
     private void setDecor(int i, int b)
     {
-        for(int z=0; z<2; z++)
+        if(Random.Range(0,20) > 10)
         {
-            if(Random.Range(0,20) > 13)
+            for(int z=0; z<2; z++)
             {
-                //needs biome checks with wallRoomIds[i,b]
-                wallDecor[i,b,z] = Random.Range(1,roomScript.WallStains.Length);//wall decor
+                List<int> keepTrack = new List<int>();
+                if(Random.Range(0,20) > 5)
+                {
+                    int newRandom = Random.Range(1,roomScript.WallStains.Length);
+                    keepTrack.Add(newRandom);
+                    wallDecor[i,b,z] = newRandom;//wall decor
+                    while(!keepTrack.Contains(newRandom))
+                    {
+                        newRandom = Random.Range(1,roomScript.WallStains.Length);
+                        keepTrack.Add(newRandom);
+                        wallDecor[i,b,z] = newRandom;//wall decor
+                    }
+                }
             }
         }
 
@@ -138,7 +151,7 @@ public class WallGen : MonoBehaviour
     {
         if(i == 0)//top of wall room
         {
-            roofBroken[i,b] = -1;//completly gone
+            roofBroken[i,b] = 0;//completly gone
         }
         else
         {
@@ -320,4 +333,15 @@ public class WallGen : MonoBehaviour
         }
     }
 
+    private int[,] returnGridInfo(int i, int b)
+    {
+        int[,] data = new int[,] {
+            {roomBuild[i,b,0,0],roomBuild[i,b,0,1],roomBuild[i,b,0,2],roomBuild[i,b,0,3],roomBuild[i,b,0,4],roomBuild[i,b,0,5],roomBuild[i,b,0,6],roomBuild[i,b,0,7],roomBuild[i,b,0,8],roomBuild[i,b,0,9],roomBuild[i,b,0,10]},
+            {roomBuild[i,b,1,0],roomBuild[i,b,1,1],roomBuild[i,b,1,2],roomBuild[i,b,1,3],roomBuild[i,b,1,4],roomBuild[i,b,1,5],roomBuild[i,b,1,6],roomBuild[i,b,1,7],roomBuild[i,b,1,8],roomBuild[i,b,1,9],roomBuild[i,b,1,10]},
+            {roomBuild[i,b,2,0],roomBuild[i,b,2,1],roomBuild[i,b,2,2],roomBuild[i,b,2,3],roomBuild[i,b,2,4],roomBuild[i,b,2,5],roomBuild[i,b,2,6],roomBuild[i,b,2,7],roomBuild[i,b,2,8],roomBuild[i,b,2,9],roomBuild[i,b,2,10]},
+            {roomBuild[i,b,3,0],roomBuild[i,b,3,1],roomBuild[i,b,3,2],roomBuild[i,b,3,3],roomBuild[i,b,3,4],roomBuild[i,b,3,5],roomBuild[i,b,3,6],roomBuild[i,b,3,7],roomBuild[i,b,3,8],roomBuild[i,b,3,9],roomBuild[i,b,3,10]},
+        };
+
+        return data;
+    }
 }

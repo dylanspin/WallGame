@@ -19,6 +19,7 @@ public class Room : MonoBehaviour
 
     [Header("Data")]
     [SerializeField] public Material[] biomeMaterials;
+    [SerializeField] public Material[] stainMaterials;
 
     [Header("Private values")]
     private int biome = 0;
@@ -30,16 +31,34 @@ public class Room : MonoBehaviour
     private GameObject[] spawnedWDecor = new GameObject[5];//wall stains and plants spawn ids
     private WallGen genScript;
 
-    public void generate(int newBiome,int wall,int[] wDecorId,int roof,int special,WallGen newScript,int x,int y)
+    public void generate(int newBiome,int wall,int[] wDecorId,int roof,int[,] buildInfo,int special,WallGen newScript,int x,int y)
     {
         xPos = x;
         yPos = y;
+        specialId = special;
+        genScript = newScript;
+        biome = newBiome;
         
         if(wall > -1)//if not removed
         {   
             spawnedWall = Instantiate(Walls[wall],wallPoint.position,Quaternion.Euler(0,0,0),wallPoint) as GameObject;
         }
 
+        setStains(wDecorId);
+
+        if(roof > -1)//if not removed
+        {   
+            spawnedRoof = Instantiate(Roofs[roof],roofPoint.position,Quaternion.Euler(0,0,0),roofPoint) as GameObject;
+            spawnedRoof.GetComponent<FloorInfo>().setFloorData(buildInfo);
+            // spawnedRoof.GetComponent<createNav>().bake();
+        }   
+
+        setbiome(newBiome);
+    }
+
+    private void setStains(int[] wDecorId)
+    {
+        // stainMaterials
         int decorOffset = -15;
         for(int i=0; i<wDecorId.Length; i++)
         {
@@ -48,21 +67,10 @@ public class Room : MonoBehaviour
             if(wDecorId[i] > 0)
             {
                 spawnedWDecor[i] = Instantiate(WallStains[wDecorId[i]],spawnPos,Quaternion.Euler(0,0,0),wallPoint) as GameObject;
+                spawnedWDecor[i].transform.GetChild(0).GetComponent<MeshRenderer>().material = stainMaterials[biome];
             }
             decorOffset += 15;
         }
-
-        if(roof > -1)//if not removed
-        {   
-            spawnedRoof = Instantiate(Roofs[roof],roofPoint.position,Quaternion.Euler(0,0,0),roofPoint) as GameObject;
-            // spawnedRoof.GetComponent<createNav>().bake();
-        }   
-
-        // wallDecor
-
-        setbiome(newBiome);
-        specialId = special;
-        genScript = newScript;
     }
 
     private void setbiome(int newBiome)

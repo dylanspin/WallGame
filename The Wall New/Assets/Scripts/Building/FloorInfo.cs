@@ -11,10 +11,7 @@ public class FloorInfo : MonoBehaviour
     [SerializeField] private bool[] row4 = new bool[11];
 
     [Header("If build")]
-    [SerializeField] private bool[] rowB1 = new bool[11];
-    [SerializeField] private bool[] rowB2 = new bool[11];
-    [SerializeField] private bool[] rowB3 = new bool[11];
-    [SerializeField] private bool[] rowB4 = new bool[11];
+    [SerializeField] private int[,] buildData = new int[4,11];
 
     public bool checkIsFloor(int x, int y)
     {
@@ -34,6 +31,16 @@ public class FloorInfo : MonoBehaviour
         {
             return row4[y];
         }
+    }
+
+    public void setFloorData(int[,] newData)
+    {
+        buildData = newData;
+    }
+
+    public int[,] getBuild()
+    {
+        return buildData;
     }
 
     public bool[,] getFloorData()

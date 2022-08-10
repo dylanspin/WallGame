@@ -200,8 +200,22 @@ MonoBehaviour:
   - {fileID: 2528878457430412280, guid: 669a8b4968022954ca385171fcb7f9d8, type: 3}
   - {fileID: 2334915761858615610, guid: 723862648e7d9d64da58852cffc44dc1, type: 3}
   WallStains:
-  - {fileID: 912715294994556644, guid: 5870da0fe585cd448bab1c5233205d9a, type: 3}
-  - {fileID: 912715294994556644, guid: 5870da0fe585cd448bab1c5233205d9a, type: 3}
+  - {fileID: 0}
+  - {fileID: 1751571992527935687, guid: 465432bf01b702d479eb115e774e0082, type: 3}
+  - {fileID: 20976924821078983, guid: 8f472e3c243fcb24693559a6a32a49b8, type: 3}
+  - {fileID: 8725396605030733254, guid: c9775cdc65cc33e4f8ce665117ff0fb6, type: 3}
+  - {fileID: 4104891747499680042, guid: bf5ddf6fdd59e134fb173949748c5b22, type: 3}
+  - {fileID: 6569734219992203260, guid: 0ffa81c818a2943479f2e950d46b5c52, type: 3}
+  - {fileID: 3468680013256816135, guid: 611a1e06618c431469f7d4a3445befe2, type: 3}
+  - {fileID: 4118612604870274228, guid: c87cb808ec80c484f810e8db9d7d5fca, type: 3}
+  - {fileID: 9173442869578741201, guid: d11e75e58b0fbfc4698a722f176a65ca, type: 3}
+  - {fileID: 6967273192324063002, guid: 58d16b3d1ee53af4e8a57ca50252339b, type: 3}
+  - {fileID: 1980607644684807157, guid: e671c05220f23044b84d1e9354736dd1, type: 3}
+  - {fileID: 1179354675936811742, guid: 78796fde74a8dd940b3b82e2f32aab74, type: 3}
+  - {fileID: 1710307796947764202, guid: 5320e580581d963419d692e1fc459a53, type: 3}
+  - {fileID: 2070415727746258910, guid: 26df2a08ac8360a418c33eb3be1a45c8, type: 3}
+  - {fileID: 2061783161836239630, guid: 75e7c9f8fa7f7d64e9dd4faaa888ffb7, type: 3}
+  - {fileID: 5031609821802969510, guid: b78cbfbf2bbefa04b9241351c6fef91c, type: 3}
   specialWallDecor: []
   biomeMaterials:
   - {fileID: 2100000, guid: ef6894f5e09a0a641b97b82ef2c412ee, type: 2}
@@ -211,6 +225,14 @@ MonoBehaviour:
   - {fileID: 2100000, guid: c8ca8faeb4ccc7843bfc37a2b603b398, type: 2}
   - {fileID: 2100000, guid: 5479494bf5b2f4e44b92dc5608c14d72, type: 2}
   - {fileID: 2100000, guid: 228b9a1ab84cc934aa4a85db331ad227, type: 2}
+  stainMaterials:
+  - {fileID: 2100000, guid: 6aef981aede14484a8cede1385acb51a, type: 2}
+  - {fileID: 2100000, guid: 6aef981aede14484a8cede1385acb51a, type: 2}
+  - {fileID: 2100000, guid: 6aef981aede14484a8cede1385acb51a, type: 2}
+  - {fileID: 2100000, guid: 6aef981aede14484a8cede1385acb51a, type: 2}
+  - {fileID: 2100000, guid: 6aef981aede14484a8cede1385acb51a, type: 2}
+  - {fileID: 2100000, guid: 6aef981aede14484a8cede1385acb51a, type: 2}
+  - {fileID: 2100000, guid: 6aef981aede14484a8cede1385acb51a, type: 2}
 --- !u!1 &789805935985484358
 GameObject:
   m_ObjectHideFlags: 0

@@ -4528,7 +4528,7 @@ MonoBehaviour:
   - {fileID: 1001610038}
   - {fileID: 882253173}
   materials:
-  - {fileID: 2100000, guid: 3217b5d5d765ca842b8cec7b8be32d09, type: 2}
+  - {fileID: 2100000, guid: ae9c7d1b3676ab84291e434be55fbbda, type: 2}
   - {fileID: 2100000, guid: 068d09e0471fdca47a61e4c5238aae38, type: 2}
   - {fileID: 2100000, guid: ad3615a7b253b7845824c86f4051bb5f, type: 2}
 --- !u!4 &1445474841
@@ -4860,7 +4860,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!65 &1597118240
 BoxCollider:
   m_ObjectHideFlags: 0
