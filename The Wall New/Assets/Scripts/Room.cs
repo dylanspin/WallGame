@@ -10,6 +10,7 @@ public class Room : MonoBehaviour
     [SerializeField] private Transform roofPoint;
     [SerializeField] private Transform buildingGrid;
     [SerializeField] private Transform wallDecor;
+    [SerializeField] private Transform gridStart;
     
     [Header("SpawnObject")]
     [SerializeField] public GameObject[] Roofs;

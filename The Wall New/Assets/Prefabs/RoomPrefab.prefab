@@ -128,6 +128,7 @@ Transform:
   - {fileID: 2320802217871058146}
   - {fileID: 789805934914680362}
   - {fileID: 789805935985484359}
+  - {fileID: 33504894024979927}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -147,6 +148,7 @@ MonoBehaviour:
   roofPoint: {fileID: 6280080148733513620}
   buildingGrid: {fileID: 789805934914680362}
   wallDecor: {fileID: 789805935985484359}
+  gridStart: {fileID: 33504894024979927}
   Roofs:
   - {fileID: 8247408513145620072, guid: 94a78dfb06e4512468bd3d1cd23f26eb, type: 3}
   - {fileID: 6988892436644044246, guid: a4b4a4beff3ca424d9310f7707551a4a, type: 3}
@@ -483,3 +485,33 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2.0000005, y: 2, z: 2.0000005}
   m_Center: {x: 0, y: 0.00000011920929, z: 0}
+--- !u!1 &7866370227454554988
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 33504894024979927}
+  m_Layer: 6
+  m_Name: GridStart
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &33504894024979927
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7866370227454554988}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -22.5, y: -14.5, z: -6.7}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 789805935320657147}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

@@ -33,6 +33,22 @@ public class FloorInfo : MonoBehaviour
         }
     }
 
+    // public Vector3 CenterOfVectors(int[] grid,Transform startGrid)
+    // {
+    //     Vector3 sum = Vector3.zero;
+    //     if(vectors == null || vectors.Length == 0 )
+    //     {
+    //         return sum;
+    //     }
+    
+    //     foreach( Vector3 vec in vectors )
+    //     {
+    //         sum += vec;
+    //     }
+    //     return sum/vectors.Length;
+    // }
+
+
     public void setFloorData(int[,] newData)
     {
         buildData = newData;
