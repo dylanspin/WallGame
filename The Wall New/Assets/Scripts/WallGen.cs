@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class WallGen : MonoBehaviour
 {
     [Header("Set Data")]
-    [SerializeField] private Room roomScript;
     [SerializeField] private Transform startPoint;
     [SerializeField] private GameObject roomCreator;
     [SerializeField] private Vector2 roomOffsets = new Vector2(50,15);
@@ -14,7 +13,9 @@ public class WallGen : MonoBehaviour
     [SerializeField] private int[] bioms = new int[10];
 
     [Header("Scripts")]
+    [SerializeField] private Room roomScript;
     [SerializeField] private DispenserManager dispenserScript;
+    [SerializeField] private Building buildScript;
 
     [Header("Private data")]
     private int[,] wallRoomIds = new int[10,15];//room biome data
@@ -66,7 +67,7 @@ public class WallGen : MonoBehaviour
                     rooms[i,b] = Instantiate(roomCreator,spawnPos,Quaternion.Euler(0,0,0),rowParrent) as GameObject;
                 }
                 // Image room = rooms[i,b].GetComponent<Image>();
-                resetRoom(i,b);//resets room
+                // resetRoom(i,b);//resets room
                 setWall(i,b);//sets walls
                 setRoof(i,b);//sets roofs
                 spawnPos.x += roomOffsets.y;
@@ -83,20 +84,11 @@ public class WallGen : MonoBehaviour
             {
                 setBiomes(i,b);//sets biomes
                 setDecor(i,b);//set wall decor
+                setBuildingRoom(i,b);
                 int[] wallAllDecor = {wallDecor[i,b,0],wallDecor[i,b,1],wallDecor[i,b,2],wallDecor[i,b,3]};//wall decor array
-                rooms[i,b].GetComponent<Room>().generate(wallRoomIds[i,b],wallBroken[i,b],wallAllDecor,roofBroken[i,b],returnGridInfo(i,b),isSpecial[i,b],this,i,b);
+                rooms[i,b].GetComponent<Room>().generate(wallRoomIds[i,b],wallBroken[i,b],wallAllDecor,roofBroken[i,b],returnGridInfo(i,b),isSpecial[i,b],buildScript,this,i,b);
             }
         }
-    }
-
-    private void resetRoom(int i, int b)
-    {
-        wallBroken[i,b] = 0;
-        roofBroken[i,b] = 0;
-        isSpecial[i,b] = 0;
-        wallRoomIds[i,b] = 0;
-        dispenserHeights[0] = 0;
-        dispenserHeights[1] = 0;
     }
 
     private void setDecor(int i, int b)
@@ -108,12 +100,12 @@ public class WallGen : MonoBehaviour
                 List<int> keepTrack = new List<int>();
                 if(Random.Range(0,20) > 5)
                 {
-                    int newRandom = Random.Range(1,roomScript.WallStains.Length);
+                    int newRandom = Random.Range(1,buildScript.WallStains.Length);
                     keepTrack.Add(newRandom);
                     wallDecor[i,b,z] = newRandom;//wall decor
                     while(!keepTrack.Contains(newRandom))
                     {
-                        newRandom = Random.Range(1,roomScript.WallStains.Length);
+                        newRandom = Random.Range(1,buildScript.WallStains.Length);
                         keepTrack.Add(newRandom);
                         wallDecor[i,b,z] = newRandom;//wall decor
                     }
@@ -122,6 +114,53 @@ public class WallGen : MonoBehaviour
         }
 
         // wallDecor[i,b,3] = 1;///sets extra top layer of special plants or biome related stuff
+    }
+
+    private void setBuildingRoom(int i, int b)
+    {
+        for(int x=0; x<roomBuild.GetLength(2); x++)//goes over it for the second time to set last things
+        {
+            for(int z=0; z<roomBuild.GetLength(3); z++)
+            {
+                if(roomBuild[i,b,x,z] == 0)//if not blocked
+                {
+                    if(Random.Range(0,10) > 6)
+                    {
+                        int randomId = Random.Range(1,buildScript.buildings.Length);
+                        build selectedB = buildScript.buildings[randomId];
+                        bool clear = true;
+                        for(int c=0; c<selectedB.size[0]; c++)
+                        {
+                            for(int d=0; d<selectedB.size[1]; d++)
+                            {
+                                if(clear)
+                                {
+                                    if(c < roomBuild.GetLength(2) && x < roomBuild.GetLength(3) && roomBuild[i,b,c,d] == 0)
+                                    {
+                                        //if possible
+                                    }
+                                    else
+                                    {
+                                        clear = false; //if not possible
+                                    }
+                                }
+                            }
+                        }
+                        if(clear)
+                        {
+                            for(int c=0; c<selectedB.size[0]; c++)
+                            {
+                                for(int d=0; d<selectedB.size[1]; d++)
+                                {
+                                    roomBuild[i,b,x,z] = -1;//makes it blocked ground
+                                }
+                            }
+                            roomBuild[i,b,x,z] = randomId;//sets actual build point to build
+                        }
+                    }
+                }
+            }
+        }
     }
 
     private void setWall(int i, int b)
@@ -140,7 +179,7 @@ public class WallGen : MonoBehaviour
                 }
                 else
                 {
-                    wallBroken[i,b] = Random.Range(1,roomScript.Walls.Length);//broken
+                    wallBroken[i,b] = Random.Range(1,buildScript.Walls.Length);//broken
                 }
                 // room.sprite = roomImages[1];
             }
@@ -163,7 +202,7 @@ public class WallGen : MonoBehaviour
                 }
                 else
                 {
-                    roofBroken[i,b] = Random.Range(1,roomScript.Roofs.Length);//broken
+                    roofBroken[i,b] = Random.Range(1,buildScript.Roofs.Length);//broken
                 }
 
                 if(wallBroken[i,b] == -1)
@@ -254,7 +293,7 @@ public class WallGen : MonoBehaviour
                 else
                 {
                     setWall(i,b);
-                    // wallBroken[i,b] = Random.Range(1,roomScript.Walls.Length);
+                    // wallBroken[i,b] = Random.Range(1,buildScript.Walls.Length);
                 }
 
                 if(i != xStart)
@@ -286,7 +325,7 @@ public class WallGen : MonoBehaviour
         {
             if(i < 5)
             {
-                wallBroken[dispenserHeights[0],i] = Random.Range(1,roomScript.Walls.Length);
+                wallBroken[dispenserHeights[0],i] = Random.Range(1,buildScript.Walls.Length);
                 checkUpStart(dispenserHeights[0],i);
             }
             else

@@ -11,16 +11,6 @@ public class Room : MonoBehaviour
     [SerializeField] private Transform buildingGrid;
     [SerializeField] private Transform wallDecor;
     [SerializeField] private Transform gridStart;
-    
-    [Header("SpawnObject")]
-    [SerializeField] public GameObject[] Roofs;
-    [SerializeField] public GameObject[] Walls;
-    [SerializeField] public GameObject[] WallStains;
-    [SerializeField] public GameObject[] specialWallDecor;
-
-    [Header("Data")]
-    [SerializeField] public Material[] biomeMaterials;
-    [SerializeField] public Material[] stainMaterials;
 
     [Header("Private values")]
     private int biome = 0;
@@ -30,31 +20,49 @@ public class Room : MonoBehaviour
     private GameObject spawnedWall;
     private GameObject spawnedRoof;
     private GameObject[] spawnedWDecor = new GameObject[5];//wall stains and plants spawn ids
-    private WallGen genScript;
+    private List<GameObject> spawnedBuildings = new List<GameObject>();//spawned buildings
 
-    public void generate(int newBiome,int wall,int[] wDecorId,int roof,int[,] buildInfo,int special,WallGen newScript,int x,int y)
+    [Header("Scripts")]
+    private WallGen genScript;
+    private Building buildScript;
+    private FloorInfo floorScript;
+
+    public void generate(int newBiome,int wall,int[] wDecorId,int roof,int[,] buildInfo,int special,Building newBuild,WallGen newScript,int x,int y)
     {
         xPos = x;
         yPos = y;
         specialId = special;
         genScript = newScript;
         biome = newBiome;
+        buildScript = newBuild;
         
         if(wall > -1)//if not removed
         {   
-            spawnedWall = Instantiate(Walls[wall],wallPoint.position,Quaternion.Euler(0,0,0),wallPoint) as GameObject;
+            spawnedWall = Instantiate(buildScript.Walls[wall],wallPoint.position,Quaternion.Euler(0,0,0),wallPoint) as GameObject;
         }
 
         setStains(wDecorId);
 
         if(roof > -1)//if not removed
         {   
-            spawnedRoof = Instantiate(Roofs[roof],roofPoint.position,Quaternion.Euler(0,0,0),roofPoint) as GameObject;
-            spawnedRoof.GetComponent<FloorInfo>().setFloorData(buildInfo);
-            // spawnedRoof.GetComponent<createNav>().bake();
+            spawnedRoof = Instantiate(buildScript.Roofs[roof],roofPoint.position,Quaternion.Euler(0,0,0),roofPoint) as GameObject;
+            floorScript = spawnedRoof.GetComponent<FloorInfo>();
+            floorScript.setFloorData(buildInfo,gridStart);
         }   
 
         setbiome(newBiome);
+        // spawnBuildings();
+    }
+
+    private void spawnBuildings()//spawns buildings at grid positions
+    {
+        if(floorScript)
+        {
+            int[,] spawnCoordinates = {{1,2}};
+            Vector3 spawnpos = floorScript.CenterOfVectors(spawnCoordinates,gridStart);
+            GameObject spawnB = Instantiate(buildScript.buildings[1].spawnObj,spawnpos,Quaternion.Euler(0,0,0),gridStart) as GameObject;
+            spawnedBuildings.Add(spawnB);//adds spawned building to spawned building list for later use
+        }
     }
 
     private void setStains(int[] wDecorId)
@@ -67,8 +75,8 @@ public class Room : MonoBehaviour
             spawnPos.x += decorOffset;
             if(wDecorId[i] > 0)
             {
-                spawnedWDecor[i] = Instantiate(WallStains[wDecorId[i]],spawnPos,Quaternion.Euler(0,0,0),wallPoint) as GameObject;
-                spawnedWDecor[i].transform.GetChild(0).GetComponent<MeshRenderer>().material = stainMaterials[biome];
+                spawnedWDecor[i] = Instantiate(buildScript.WallStains[wDecorId[i]],spawnPos,Quaternion.Euler(0,0,0),wallPoint) as GameObject;
+                spawnedWDecor[i].transform.GetChild(0).GetComponent<MeshRenderer>().material = buildScript.stainMaterials[biome];
             }
             decorOffset += 15;
         }
@@ -79,21 +87,21 @@ public class Room : MonoBehaviour
         biome = newBiome;
         if(spawnedWall)
         {
-            spawnedWall.transform.GetChild(0).GetComponent<MeshRenderer>().material = biomeMaterials[biome];
-            spawnedWall.transform.GetChild(1).GetComponent<MeshRenderer>().material = biomeMaterials[biome];
+            spawnedWall.transform.GetChild(0).GetComponent<MeshRenderer>().material = buildScript.biomeMaterials[biome];
+            spawnedWall.transform.GetChild(1).GetComponent<MeshRenderer>().material = buildScript.biomeMaterials[biome];
         }
 
         if(spawnedRoof)
         {
-            spawnedRoof.transform.GetChild(0).GetComponent<MeshRenderer>().material = biomeMaterials[biome];
+            spawnedRoof.transform.GetChild(0).GetComponent<MeshRenderer>().material = buildScript.biomeMaterials[biome];
         }
     }
 
     public FloorInfo getFloor()
     {
-        if(spawnedRoof)
+        if(floorScript)
         {
-            return spawnedRoof.GetComponent<FloorInfo>();
+            return floorScript;
         }
         else
         {

@@ -7,6 +7,20 @@ public class Building : MonoBehaviour
     [Header("Set Data")]
     [SerializeField] private Transform GridPrefab;
     [SerializeField] private Grid gridScript;
+
+    [Header("Build Data")]
+    [SerializeField] public GameObject[] Roofs;
+    [SerializeField] public GameObject[] Walls;
+    [SerializeField] public GameObject[] WallStains;
+    [SerializeField] public GameObject[] specialWallDecor;
+    [SerializeField] public build[] buildings;
+    
+    [Header("Materials")]
+    [SerializeField] public Material[] biomeMaterials;
+    [SerializeField] public Material[] stainMaterials;
+
+
+
     private bool isShowing = false;
 
     // [Header("private Data")]
