@@ -42,31 +42,6 @@ public class FloorInfo : MonoBehaviour
         }
     }
 
-    public Vector3 CenterOfVectors(int[,] grid,Transform startGrid)//////////////////not needed anymore just spawn from the corner always go up and right
-    {
-        Vector3[] vectors = new Vector3[grid.GetLength(0)];
-        for(int i=0; i<grid.GetLength(0); i++)
-        {
-            vectors[i] = startGrid.position;
-            vectors[i].z += 4.4f * grid[i,0];
-            vectors[i].x += 4.4f * grid[i,1];
-        }
-
-        Vector3 sum = Vector3.zero;
-        if(vectors == null || vectors.Length == 0 )
-        {
-            return sum;
-        }
-    
-        foreach(Vector3 vec in vectors )
-        {
-            sum += vec;
-        }
-
-        return sum/vectors.Length;
-        // return vectors[0];
-    }
-
     public int[,] getBuild()
     {
         return buildData;

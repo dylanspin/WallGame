@@ -118,44 +118,67 @@ public class WallGen : MonoBehaviour
 
     private void setBuildingRoom(int i, int b)
     {
-        for(int x=0; x<roomBuild.GetLength(2); x++)//goes over it for the second time to set last things
+        if(isSpecial[i,b] == 0)
         {
-            for(int z=0; z<roomBuild.GetLength(3); z++)
+            for(int x=0; x<roomBuild.GetLength(2); x++)
             {
-                if(roomBuild[i,b,x,z] == 0)//if not blocked
+                for(int z=0; z<roomBuild.GetLength(3); z++)
                 {
-                    if(Random.Range(0,10) > 6)
+                    if(roomBuild[i,b,x,z] == 0)//if not blocked
                     {
-                        int randomId = Random.Range(1,buildScript.buildings.Length);
-                        build selectedB = buildScript.buildings[randomId];
-                        bool clear = true;
-                        for(int c=0; c<selectedB.size[0]; c++)
+                        if(Random.Range(0,10) > 6)
                         {
-                            for(int d=0; d<selectedB.size[1]; d++)
+                            int randomId = Random.Range(1,buildScript.buildings.Length);
+                            build selectedB = buildScript.buildings[randomId];
+                            bool clear = true;
+
+                            FloorInfo currentFloorInfo = null;
+                            if(roofBroken[i,b] > -1)
                             {
-                                if(clear)
-                                {
-                                    if(c < roomBuild.GetLength(2) && x < roomBuild.GetLength(3) && roomBuild[i,b,c,d] == 0)
-                                    {
-                                        //if possible
-                                    }
-                                    else
-                                    {
-                                        clear = false; //if not possible
-                                    }
-                                }
+                                currentFloorInfo = buildScript.Roofs[roofBroken[i,b]].GetComponent<FloorInfo>();
                             }
-                        }
-                        if(clear)
-                        {
+
                             for(int c=0; c<selectedB.size[0]; c++)
                             {
                                 for(int d=0; d<selectedB.size[1]; d++)
                                 {
-                                    roomBuild[i,b,x,z] = -1;//makes it blocked ground
+                                    if(clear)
+                                    {
+                                        if(x + c < roomBuild.GetLength(2) && z + d < roomBuild.GetLength(3) && roomBuild[i,b,x + c,z + d] == 0)
+                                        {
+                                            if(currentFloorInfo != null)
+                                            {
+                                                if(!currentFloorInfo.checkIsFloor(x + c,z + d))
+                                                {
+                                                    clear = false; //if not possible
+                                                }
+                                            }
+                                            else
+                                            {
+                                                clear = false; //if not possible
+                                            }
+                                        }
+                                        else
+                                        {
+                                            clear = false; //if not possible
+                                        }
+                                    }
                                 }
                             }
-                            roomBuild[i,b,x,z] = randomId;//sets actual build point to build
+                            if(clear)
+                            {
+                                for(int c=0; c<selectedB.size[0]; c++)
+                                {
+                                    for(int d=0; d<selectedB.size[1]; d++)
+                                    {
+                                        if(x + c < roomBuild.GetLength(2) && z + d < roomBuild.GetLength(3))
+                                        {
+                                            roomBuild[i,b,x + c,z + d] = -1;//makes it blocked ground
+                                        }
+                                    }
+                                }
+                                roomBuild[i,b,x,z] = randomId;//sets actual build point to build
+                            }
                         }
                     }
                 }

@@ -18,9 +18,6 @@ public class Building : MonoBehaviour
     [Header("Materials")]
     [SerializeField] public Material[] biomeMaterials;
     [SerializeField] public Material[] stainMaterials;
-
-
-
     private bool isShowing = false;
 
     // [Header("private Data")]

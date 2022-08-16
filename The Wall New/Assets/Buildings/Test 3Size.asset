@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: afbe0b210dd303849835206d613ffb92, type: 3}
-  m_Name: Test 2Size
+  m_Name: Test 3Size
   m_EditorClassIdentifier: 
   Name: Building
-  spawnObj: {fileID: 7578791532148356682, guid: 6cbeb91e3d97bca4d83daf20b57b3be8, type: 3}
+  spawnObj: {fileID: 1795141490448916164, guid: c526a62814f6dcd419aac48333928bd0, type: 3}
   costBuilding: 0
-  size: 0200000002000000
+  size: 0300000003000000
   health: 1000
   gainItems: 
   gainResources: 

@@ -38,7 +38,7 @@ public class Grid : MonoBehaviour
         {
             square.GetComponent<MeshRenderer>().material = materials[0];//blue
         }
-        else if(buildData > 0 )//if build space
+        else if(buildData > 0)//if build space
         {
             square.GetComponent<MeshRenderer>().material = materials[2];//green
         }

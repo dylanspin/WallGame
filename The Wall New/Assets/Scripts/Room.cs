@@ -51,17 +51,28 @@ public class Room : MonoBehaviour
         }   
 
         setbiome(newBiome);
-        // spawnBuildings();
+        spawnBuildings(buildInfo);
     }
 
-    private void spawnBuildings()//spawns buildings at grid positions
+    private void spawnBuildings(int[,] buildInfo)//spawns buildings at grid positions
     {
         if(floorScript)
         {
-            int[,] spawnCoordinates = {{1,2}};
-            Vector3 spawnpos = floorScript.CenterOfVectors(spawnCoordinates,gridStart);
-            GameObject spawnB = Instantiate(buildScript.buildings[1].spawnObj,spawnpos,Quaternion.Euler(0,0,0),gridStart) as GameObject;
-            spawnedBuildings.Add(spawnB);//adds spawned building to spawned building list for later use
+            for(int x=0; x<buildInfo.GetLength(0); x++)
+            {
+                for(int z=0; z<buildInfo.GetLength(1); z++)
+                {
+                    if(buildInfo[x,z] > 0)
+                    {
+                        Vector3 spawnPos = gridStart.position;
+                        spawnPos.z += 4.4f * x;
+                        spawnPos.x += 4.4f * z;
+
+                        GameObject spawnB = Instantiate(buildScript.buildings[buildInfo[x,z]].spawnObj,spawnPos,Quaternion.Euler(0,0,0),gridStart) as GameObject;
+                        spawnedBuildings.Add(spawnB);//adds spawned building to spawned building list for later use
+                    }
+                }
+            }
         }
     }
 
