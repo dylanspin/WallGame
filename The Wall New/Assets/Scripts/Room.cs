@@ -80,7 +80,7 @@ public class Room : MonoBehaviour
     {
         // stainMaterials
         int decorOffset = -15;
-        for(int i=0; i<wDecorId.Length; i++)
+        for(int i=0; i<wDecorId.Length-1; i++)
         {
             Vector3 spawnPos = wallDecor.position;
             spawnPos.x += decorOffset;
@@ -90,6 +90,13 @@ public class Room : MonoBehaviour
                 spawnedWDecor[i].transform.GetChild(0).GetComponent<MeshRenderer>().material = buildScript.stainMaterials[biome];
             }
             decorOffset += 15;
+        }
+
+        //last special decor item including plants and stuff
+        if(wDecorId[3] > 0)
+        {
+            Vector3 spawnPos = wallDecor.position;
+            spawnedWDecor[3] = Instantiate(buildScript.specialWallDecor[wDecorId[3]],spawnPos,Quaternion.Euler(0,0,0),this.transform) as GameObject;
         }
     }
 

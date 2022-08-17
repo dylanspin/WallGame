@@ -15,7 +15,7 @@ MonoBehaviour:
   Name: Building
   spawnObj: {fileID: 5181845604758001359, guid: 422722c3940c6464798ee8f8095ad2d2, type: 3}
   costBuilding: 0
-  size: 0100000002000000
+  size: 0200000001000000
   health: 1000
   gainItems: 
   gainResources: 
