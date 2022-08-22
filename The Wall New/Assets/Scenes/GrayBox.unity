@@ -2015,6 +2015,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GridPrefab: {fileID: 1445474841}
   gridScript: {fileID: 1445474840}
+  BiomeData: []
   Roofs:
   - {fileID: 8247408513145620072, guid: 94a78dfb06e4512468bd3d1cd23f26eb, type: 3}
   - {fileID: 6988892436644044246, guid: a4b4a4beff3ca424d9310f7707551a4a, type: 3}
@@ -2096,6 +2097,21 @@ MonoBehaviour:
   - {fileID: 11400000, guid: f1cba10c1e2db2244a514a8a0a754765, type: 2}
   - {fileID: 11400000, guid: 4c29be4dd7d650241a6abc38e750f00b, type: 2}
   - {fileID: 11400000, guid: 58689228dc8867649aab5e08569a8cd7, type: 2}
+  biomes:
+  - {fileID: 11400000, guid: 66c9787064844be419e1e704104de3c9, type: 2}
+  - {fileID: 11400000, guid: beaaba17cf9a6984e8e51922ff0eb1b5, type: 2}
+  - {fileID: 11400000, guid: 91185aacc06b3bb4c9b640d6128277dd, type: 2}
+  - {fileID: 11400000, guid: 631a348eccf4e2f4bbfc330168631307, type: 2}
+  - {fileID: 11400000, guid: 81ab0873f10366645a93d140a132945f, type: 2}
+  - {fileID: 11400000, guid: eb76e8b44e3eeef46821ff0d5606ad4e, type: 2}
+  - {fileID: 11400000, guid: 4c9beaef79c60634197522af5e7bc3d2, type: 2}
+  - {fileID: 11400000, guid: 45e09612cd619c14582954656de6d90e, type: 2}
+  - {fileID: 11400000, guid: 5ee12452b38106c418e394c5cf8ad39f, type: 2}
+  - {fileID: 11400000, guid: 6264df789410eb141a67c9a1e87b0dc4, type: 2}
+  - {fileID: 11400000, guid: b753aafdc49aedd4b8562f1e1569b6a0, type: 2}
+  - {fileID: 11400000, guid: 2821d334048844a41ad5a67b851b654e, type: 2}
+  - {fileID: 11400000, guid: da0934f097cfd9f438b62811ffdf3271, type: 2}
+  - {fileID: 11400000, guid: 1f41e92e3c55e444ab18b3c7222ea390, type: 2}
   biomeMaterials:
   - {fileID: 2100000, guid: ef6894f5e09a0a641b97b82ef2c412ee, type: 2}
   - {fileID: 2100000, guid: 1ae6fd5b6c69f9149ae26672776388ef, type: 2}

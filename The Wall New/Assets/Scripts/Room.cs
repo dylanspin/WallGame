@@ -26,6 +26,7 @@ public class Room : MonoBehaviour
     private WallGen genScript;
     private Building buildScript;
     private FloorInfo floorScript;
+    private Biome currentBiome;
 
     public void generate(int newBiome,int wall,int[] wDecorId,int roof,int[,] buildInfo,int special,Building newBuild,WallGen newScript,int x,int y)
     {
@@ -35,7 +36,13 @@ public class Room : MonoBehaviour
         genScript = newScript;
         biome = newBiome;
         buildScript = newBuild;
-        
+        if(biome > buildScript.biomes.Length)
+        {
+            Debug.Log("Error : " + biome);
+            return;
+        }
+        currentBiome = buildScript.biomes[biome];
+
         if(wall > -1)//if not removed
         {   
             spawnedWall = Instantiate(buildScript.Walls[wall],wallPoint.position,Quaternion.Euler(0,0,0),wallPoint) as GameObject;
@@ -50,7 +57,7 @@ public class Room : MonoBehaviour
             floorScript.setFloorData(buildInfo,gridStart);
         }   
 
-        setbiome(newBiome);
+        setbiome();
         spawnBuildings(buildInfo);
     }
 
@@ -87,7 +94,8 @@ public class Room : MonoBehaviour
             if(wDecorId[i] > 0)
             {
                 spawnedWDecor[i] = Instantiate(buildScript.WallStains[wDecorId[i]],spawnPos,Quaternion.Euler(0,0,0),wallPoint) as GameObject;
-                spawnedWDecor[i].transform.GetChild(0).GetComponent<MeshRenderer>().material = buildScript.stainMaterials[biome];
+                spawnedWDecor[i].transform.GetChild(0).GetComponent<MeshRenderer>().material = currentBiome.stainMaterial;
+               
             }
             decorOffset += 15;
         }
@@ -100,18 +108,17 @@ public class Room : MonoBehaviour
         }
     }
 
-    private void setbiome(int newBiome)
+    private void setbiome()
     {
-        biome = newBiome;
         if(spawnedWall)
         {
-            spawnedWall.transform.GetChild(0).GetComponent<MeshRenderer>().material = buildScript.biomeMaterials[biome];
-            spawnedWall.transform.GetChild(1).GetComponent<MeshRenderer>().material = buildScript.biomeMaterials[biome];
+            spawnedWall.transform.GetChild(0).GetComponent<MeshRenderer>().material = currentBiome.roomMat;
+            spawnedWall.transform.GetChild(1).GetComponent<MeshRenderer>().material = currentBiome.roomMat;
         }
 
         if(spawnedRoof)
         {
-            spawnedRoof.transform.GetChild(0).GetComponent<MeshRenderer>().material = buildScript.biomeMaterials[biome];
+            spawnedRoof.transform.GetChild(0).GetComponent<MeshRenderer>().material = currentBiome.roomMat;
         }
     }
 

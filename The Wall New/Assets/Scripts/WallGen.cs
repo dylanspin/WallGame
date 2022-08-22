@@ -27,6 +27,9 @@ public class WallGen : MonoBehaviour
     private int[] dispenserHeights = new int[2];//height positions of the item dispensers
     private GameObject[,] rooms = new GameObject[10,15];//spawned rooms
 
+    [Header("Biome Data")]
+    private int maxBiomeChance = 0;
+
     private void Start()
     {
         setStartLengths();
@@ -50,6 +53,16 @@ public class WallGen : MonoBehaviour
         roofBroken = new int[(int)wallDimensions.x,(int)wallDimensions.y];
         isSpecial = new int[(int)wallDimensions.x,(int)wallDimensions.y];
         rooms = new GameObject[(int)wallDimensions.x,(int)wallDimensions.y];
+        setMaxBiomeChance();//sets the max length for the biome chances
+    }
+
+    private void setMaxBiomeChance()
+    {
+        buildScript.sortBiome();
+        for(int i=0; i<buildScript.biomes.Length; i++)
+        {
+            maxBiomeChance += buildScript.biomes[i].rarity;
+        }
     }
 
     private void genWall()
@@ -66,8 +79,6 @@ public class WallGen : MonoBehaviour
                 {
                     rooms[i,b] = Instantiate(roomCreator,spawnPos,Quaternion.Euler(0,0,0),rowParrent) as GameObject;
                 }
-                // Image room = rooms[i,b].GetComponent<Image>();
-                // resetRoom(i,b);//resets room
                 setWall(i,b);//sets walls
                 setRoof(i,b);//sets roofs
                 spawnPos.x += roomOffsets.y;
@@ -260,9 +271,26 @@ public class WallGen : MonoBehaviour
         {
             if(wallRoomIds[i,b] == 0 && isSpecial[i,b] == 0)//if its not a biome already // if its not a special area
             {
-                setBiomeSpread(bioms[Random.Range(0,bioms.Length)],i,b);
+                int randomBiome = getRandomBiome();
+                // bioms[Random.Range(0,bioms.Length)]
+                setBiomeSpread(randomBiome,i,b);
             }
         }
+    }
+
+    private int getRandomBiome()
+    {
+        int randomNum = Random.Range(0,maxBiomeChance);
+
+        for (int i = buildScript.biomes.GetLength(0) - 1; i >= 0; i--)
+        {
+            if(randomNum < buildScript.biomes[i].rarity)
+            {
+                return i;
+            }
+        }
+
+        return buildScript.biomes.Length-1;
     }
 
     private void setBiomeSpread(int newBiome,int xPos,int yPos)
