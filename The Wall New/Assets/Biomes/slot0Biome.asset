@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2d1d375bb983f684198acb8a39d4d692, type: 3}
-  m_Name: Swamp
+  m_Name: slot0Biome
   m_EditorClassIdentifier: 
-  Name: Swamp Biome
-  rarity: 4
+  Name: 0IdDefaultBiome
+  rarity: 0
   WallStains:
   - {fileID: 0}
   - {fileID: 1751571992527935687, guid: 465432bf01b702d479eb115e774e0082, type: 3}
@@ -34,6 +34,7 @@ MonoBehaviour:
   specialWallDecor:
   - {fileID: 0}
   buildings:
+  - {fileID: 0}
   - {fileID: 11400000, guid: 603bc5e03e60ee541a8b4fe3044b015a, type: 2}
   - {fileID: 11400000, guid: a2a4eca7f8bc76f45a1b224e5a2bff5f, type: 2}
   - {fileID: 11400000, guid: f1cba10c1e2db2244a514a8a0a754765, type: 2}
@@ -41,4 +42,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 4c29be4dd7d650241a6abc38e750f00b, type: 2}
   - {fileID: 11400000, guid: 58689228dc8867649aab5e08569a8cd7, type: 2}
   stainMaterial: {fileID: 2100000, guid: 6aef981aede14484a8cede1385acb51a, type: 2}
-  roomMat: {fileID: 2100000, guid: 3700c4a6b6e808b46a3b8377c0391296, type: 2}
+  roomMat: {fileID: 2100000, guid: ef6894f5e09a0a641b97b82ef2c412ee, type: 2}

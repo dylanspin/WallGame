@@ -32,11 +32,6 @@ public class Building : MonoBehaviour
         isShowing = true;
     }
     
-    public void sortBiome()
-    {
-        biomes = biomes.OrderBy(x => x.rarity).ToArray();
-    }   
-
     public void stopBuild()
     {
         GridPrefab.gameObject.SetActive(false);

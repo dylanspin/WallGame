@@ -74,7 +74,6 @@ public class CamDrag : MonoBehaviour
         { 
             RaycastHit hit; 
             Ray ray = cam.ScreenPointToRay(Input.mousePosition); //////later on needs to be the position of the tap on the screen
-            Debug.DrawRay(Input.mousePosition, transform.forward * 800, Color.green);
             if(Physics.Raycast(ray,out hit,800.0f,roomMask)) 
             {
                 Room newRoom = hit.transform.parent.GetComponent<Room>();
@@ -95,7 +94,6 @@ public class CamDrag : MonoBehaviour
 
     private void setZoomLevel(float amount)
     {
-        Debug.Log(maxAndMin[0] + " " + maxAndMin[1]);
         if(amount >= maxAndMin[0] | amount <= maxAndMin[1])
         {
             value  = amount;

@@ -10,7 +10,7 @@ public class WallGen : MonoBehaviour
     [SerializeField] private GameObject roomCreator;
     [SerializeField] private Vector2 roomOffsets = new Vector2(50,15);
     [SerializeField] private Vector2 wallDimensions = new Vector2(10,15);
-    [SerializeField] private int[] bioms = new int[10];
+    [SerializeField] private List<int> biomeRarity = new List<int>();
 
     [Header("Scripts")]
     [SerializeField] private Room roomScript;
@@ -36,14 +36,6 @@ public class WallGen : MonoBehaviour
         genWall();
     }
 
-    private void Update()
-    {
-        if(Input.GetMouseButtonDown(0))
-        {
-            // genWall();
-        }
-    }
-
     private void setStartLengths()
     {
         wallRoomIds = new int[(int)wallDimensions.x,(int)wallDimensions.y];
@@ -58,10 +50,12 @@ public class WallGen : MonoBehaviour
 
     private void setMaxBiomeChance()
     {
-        buildScript.sortBiome();
         for(int i=0; i<buildScript.biomes.Length; i++)
         {
-            maxBiomeChance += buildScript.biomes[i].rarity;
+            for(int b=0; b<buildScript.biomes[i].rarity; b++)
+            {
+                biomeRarity.Add(i);
+            }
         }
     }
 
@@ -102,7 +96,7 @@ public class WallGen : MonoBehaviour
         }
     }
 
-    private void setDecor(int i, int b)
+    private void setDecor(int i, int b)//sets wall decor
     {
         if(isSpecial[i,b] == 0)
         {
@@ -129,7 +123,7 @@ public class WallGen : MonoBehaviour
             ////////needs if has wall in room specialized decors
             if(Random.Range(0,20) > 15)
             {
-                wallDecor[i,b,3] = Random.Range(1,buildScript.specialWallDecor.Length);///sets extra top layer of special plants or biome related stuff
+                wallDecor[i,b,3] = Random.Range(0,buildScript.specialWallDecor.Length);///sets extra top layer of special plants or biome related stuff
             }   
         }
     }
@@ -245,52 +239,17 @@ public class WallGen : MonoBehaviour
                 {
                     roofBroken[i,b] = Random.Range(1,buildScript.Roofs.Length);//broken
                 }
-
-                if(wallBroken[i,b] == -1)
-                {   
-                    if(roofBroken[i,b] == -1)//if roof is also broken
-                    {
-                        // room.enabled = false;
-                    }
-                    else
-                    {
-                        // room.sprite = roomImages[2];
-                    }
-                }
-                else
-                {
-                    // room.sprite = roomImages[3];
-                }
             }
         }
     }
 
     private void setBiomes(int i, int b)
     {
-        if(Random.Range(0,5) > 2)
+        if(wallRoomIds[i,b] == 0 && isSpecial[i,b] == 0)//if its not a biome already // if its not a special area
         {
-            if(wallRoomIds[i,b] == 0 && isSpecial[i,b] == 0)//if its not a biome already // if its not a special area
-            {
-                int randomBiome = getRandomBiome();
-                // bioms[Random.Range(0,bioms.Length)]
-                setBiomeSpread(randomBiome,i,b);
-            }
+            int randomBiome = biomeRarity[Random.Range(0,biomeRarity.Count)];
+            setBiomeSpread(randomBiome,i,b);
         }
-    }
-
-    private int getRandomBiome()
-    {
-        int randomNum = Random.Range(0,maxBiomeChance);
-
-        for (int i = buildScript.biomes.GetLength(0) - 1; i >= 0; i--)
-        {
-            if(randomNum < buildScript.biomes[i].rarity)
-            {
-                return i;
-            }
-        }
-
-        return buildScript.biomes.Length-1;
     }
 
     private void setBiomeSpread(int newBiome,int xPos,int yPos)
@@ -331,6 +290,8 @@ public class WallGen : MonoBehaviour
         //create starting zones
     }
 
+
+    /*Still needs to instantiate the market it self*/
     private void createMarket()
     {   
         int xStart = Random.Range(0,(int)wallDimensions.x-8);
@@ -400,6 +361,8 @@ public class WallGen : MonoBehaviour
         }
     }
 
+
+    /////////for later use with non discovered area
     private void checkUpStart(int xPos,int yPos)//checks if roofs are open if so set to green
     {
         bool[] stopped = {false,false};///needs to be shorter
@@ -430,7 +393,7 @@ public class WallGen : MonoBehaviour
         }
     }
 
-    private int[,] returnGridInfo(int i, int b)
+    private int[,] returnGridInfo(int i, int b)//gives the building data
     {
         int[,] data = new int[,] {
             {roomBuild[i,b,0,0],roomBuild[i,b,0,1],roomBuild[i,b,0,2],roomBuild[i,b,0,3],roomBuild[i,b,0,4],roomBuild[i,b,0,5],roomBuild[i,b,0,6],roomBuild[i,b,0,7],roomBuild[i,b,0,8],roomBuild[i,b,0,9],roomBuild[i,b,0,10]},

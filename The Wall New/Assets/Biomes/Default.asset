@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Default
   m_EditorClassIdentifier: 
   Name: Default biome
-  rarity: 10
+  rarity: 25
   WallStains:
   - {fileID: 0}
   - {fileID: 1751571992527935687, guid: 465432bf01b702d479eb115e774e0082, type: 3}
