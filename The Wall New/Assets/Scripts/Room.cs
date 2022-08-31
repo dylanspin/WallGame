@@ -12,6 +12,9 @@ public class Room : MonoBehaviour
     [SerializeField] private Transform wallDecor;
     [SerializeField] private Transform gridStart;
 
+    [Header("Set Data")]
+    [SerializeField] private Material defaultMaterial;
+
     [Header("Private values")]
     private int biome = 0;
     private int specialId = 0;
@@ -71,12 +74,19 @@ public class Room : MonoBehaviour
                 {
                     if(buildInfo[x,z] > 0)
                     {
+                        build currentBuilding = currentBiome.buildings[buildInfo[x,z]];
+
                         Vector3 spawnPos = gridStart.position;
                         spawnPos.z += 4.4f * x;
                         spawnPos.x += 4.4f * z;
 
-                        GameObject spawnB = Instantiate(buildScript.buildings[buildInfo[x,z]].spawnObj,spawnPos,Quaternion.Euler(0,0,0),gridStart) as GameObject;
+                        GameObject spawnB = Instantiate(currentBuilding.spawnObj,spawnPos,Quaternion.Euler(0,0,0),gridStart) as GameObject;
                         spawnedBuildings.Add(spawnB);//adds spawned building to spawned building list for later use
+
+                        if(currentBuilding.useStain)
+                        {
+                            spawnB.GetComponentInChildren<MeshRenderer>().material = currentBiome.stainMaterial;
+                        }   
                     }
                 }
             }
@@ -93,7 +103,7 @@ public class Room : MonoBehaviour
             spawnPos.x += decorOffset;
             if(wDecorId[i] > 0)
             {
-                spawnedWDecor[i] = Instantiate(buildScript.WallStains[wDecorId[i]],spawnPos,Quaternion.Euler(0,0,0),wallPoint) as GameObject;
+                spawnedWDecor[i] = Instantiate(currentBiome.WallStains[wDecorId[i]],spawnPos,Quaternion.Euler(0,0,0),wallPoint) as GameObject;
                 spawnedWDecor[i].transform.GetChild(0).GetComponent<MeshRenderer>().material = currentBiome.stainMaterial;
                
             }
@@ -101,25 +111,32 @@ public class Room : MonoBehaviour
         }
 
         //last special decor item including plants and stuff
-        if(wDecorId[3] > 0)
+        if(currentBiome.specialWallDecor[wDecorId[3]] != null)
         {
             Vector3 spawnPos = wallDecor.position;
-            spawnedWDecor[3] = Instantiate(buildScript.specialWallDecor[wDecorId[3]],spawnPos,Quaternion.Euler(0,0,0),this.transform) as GameObject;
+            spawnedWDecor[3] = Instantiate(currentBiome.specialWallDecor[wDecorId[3]],spawnPos,Quaternion.Euler(0,0,0),this.transform) as GameObject;
         }
     }
 
     private void setbiome()
     {
+        Material setMat = defaultMaterial;
+        if(Values.debugBiomeMaterials)
+        {
+           setMat = currentBiome.roomMat;
+        }
+        
         if(spawnedWall)
         {
-            spawnedWall.transform.GetChild(0).GetComponent<MeshRenderer>().material = currentBiome.roomMat;
-            spawnedWall.transform.GetChild(1).GetComponent<MeshRenderer>().material = currentBiome.roomMat;
+            spawnedWall.transform.GetChild(0).GetComponent<MeshRenderer>().material = setMat;
+            spawnedWall.transform.GetChild(1).GetComponent<MeshRenderer>().material = setMat;
         }
 
         if(spawnedRoof)
         {
-            spawnedRoof.transform.GetChild(0).GetComponent<MeshRenderer>().material = currentBiome.roomMat;
+            spawnedRoof.transform.GetChild(0).GetComponent<MeshRenderer>().material = setMat;
         }
+        
     }
 
     public FloorInfo getFloor()

@@ -35,12 +35,18 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 876856063651402754, guid: 3cc9be3dc432d9440ac4d16bcdeef217, type: 3}
   - {fileID: 5310421366439621112, guid: 1fd9901de66f29d43a454471ad19d1db, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   buildings:
-  - {fileID: 11400000, guid: 603bc5e03e60ee541a8b4fe3044b015a, type: 2}
+  - {fileID: 0}
   - {fileID: 11400000, guid: a2a4eca7f8bc76f45a1b224e5a2bff5f, type: 2}
   - {fileID: 11400000, guid: f1cba10c1e2db2244a514a8a0a754765, type: 2}
   - {fileID: 11400000, guid: 4044c5bc72b47a7469a003d9bdc26612, type: 2}
   - {fileID: 11400000, guid: 4c29be4dd7d650241a6abc38e750f00b, type: 2}
   - {fileID: 11400000, guid: 58689228dc8867649aab5e08569a8cd7, type: 2}
+  - {fileID: 11400000, guid: 603bc5e03e60ee541a8b4fe3044b015a, type: 2}
   stainMaterial: {fileID: 2100000, guid: 6aef981aede14484a8cede1385acb51a, type: 2}
   roomMat: {fileID: 2100000, guid: ef6894f5e09a0a641b97b82ef2c412ee, type: 2}

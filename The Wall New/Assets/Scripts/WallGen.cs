@@ -98,33 +98,33 @@ public class WallGen : MonoBehaviour
 
     private void setDecor(int i, int b)//sets wall decor
     {
+        Biome setBiome = buildScript.biomes[wallRoomIds[i,b]];
         if(isSpecial[i,b] == 0)
         {
-            if(Random.Range(0,20) > 10)
+            wallDecor[i,b,3] = Random.Range(0,setBiome.specialWallDecor.Length);
+            
+            if(setBiome.specialWallDecor[wallDecor[i,b,3]] == null)//if doesnt have special decor then add stains
             {
-                for(int z=0; z<2; z++)
+                if(Random.Range(0,20) > 10)
                 {
-                    List<int> keepTrack = new List<int>();
-                    if(Random.Range(0,20) > 5)
+                    for(int z=0; z<2; z++)
                     {
-                        int newRandom = Random.Range(1,buildScript.WallStains.Length);
-                        keepTrack.Add(newRandom);
-                        wallDecor[i,b,z] = newRandom;//wall decor
-                        while(!keepTrack.Contains(newRandom))
+                        List<int> keepTrack = new List<int>();
+                        if(Random.Range(0,20) > 5)
                         {
-                            newRandom = Random.Range(1,buildScript.WallStains.Length);
+                            int newRandom = Random.Range(1,setBiome.WallStains.Length);
                             keepTrack.Add(newRandom);
                             wallDecor[i,b,z] = newRandom;//wall decor
+                            while(!keepTrack.Contains(newRandom))
+                            {
+                                newRandom = Random.Range(1,setBiome.WallStains.Length);
+                                keepTrack.Add(newRandom);
+                                wallDecor[i,b,z] = newRandom;//wall decor
+                            }
                         }
                     }
                 }
             }
-            ////////needs biome specialized decor
-            ////////needs if has wall in room specialized decors
-            if(Random.Range(0,20) > 15)
-            {
-                wallDecor[i,b,3] = Random.Range(0,buildScript.specialWallDecor.Length);///sets extra top layer of special plants or biome related stuff
-            }   
         }
     }
 
@@ -138,10 +138,11 @@ public class WallGen : MonoBehaviour
                 {
                     if(roomBuild[i,b,x,z] == 0)//if not blocked
                     {
-                        if(Random.Range(0,10) > 6)
+                        if(Random.Range(0,10) > 4)
                         {
-                            int randomId = Random.Range(1,buildScript.buildings.Length);
-                            build selectedB = buildScript.buildings[randomId];
+                            Biome setBiome = buildScript.biomes[wallRoomIds[i,b]];
+                            int randomId = Random.Range(1,setBiome.buildings.Length);
+                            build selectedB = setBiome.buildings[randomId];
                             bool clear = true;
 
                             FloorInfo currentFloorInfo = null;

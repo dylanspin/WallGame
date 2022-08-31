@@ -10,12 +10,8 @@ public class Building : MonoBehaviour
     [SerializeField] private Grid gridScript;
 
     [Header("Build Data")]
-    [SerializeField] public Biome[] BiomeData;
     [SerializeField] public GameObject[] Roofs;
     [SerializeField] public GameObject[] Walls;
-    [SerializeField] public GameObject[] WallStains;
-    [SerializeField] public GameObject[] specialWallDecor;
-    [SerializeField] public build[] buildings;
     [SerializeField] public Biome[] biomes;
     
     [Header("Materials")]

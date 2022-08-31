@@ -42,6 +42,7 @@
      <Compile Include="Assets\Scripts\AI\createNav.cs" />
      <Compile Include="Assets\Scripts\GameController.cs" />
      <Compile Include="Assets\Scripts\Management\inventoryData.cs" />
+     <Compile Include="Assets\Scripts\Values.cs" />
      <Compile Include="Assets\Scripts\Building\FloorInfo.cs" />
      <Compile Include="Assets\Scripts\WallGen.cs" />
      <Compile Include="Assets\Scripts\WallData.cs" />
@@ -52,8 +53,10 @@
      <Compile Include="Assets\Scripts\CamDrag.cs" />
      <Compile Include="Assets\Scripts\DispenserManager.cs" />
      <Compile Include="Assets\Scripts\Building\Building.cs" />
-     <Compile Include="Assets\Scripts\FollowCam.cs" />
      <Compile Include="Assets\Scripts\Building\Biome.cs" />
+     <Compile Include="Assets\Scripts\FollowCam.cs" />
+     <Compile Include="Assets\Scripts\AI\Enemies\EnemyData.cs" />
+     <Compile Include="Assets\Scripts\Items\ItemData.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />

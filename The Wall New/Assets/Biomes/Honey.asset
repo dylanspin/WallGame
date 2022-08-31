@@ -35,11 +35,21 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 3781118999483884848, guid: 8c87783a041651d41837059a8cdab3b2, type: 3}
   buildings:
-  - {fileID: 11400000, guid: 603bc5e03e60ee541a8b4fe3044b015a, type: 2}
-  - {fileID: 11400000, guid: a2a4eca7f8bc76f45a1b224e5a2bff5f, type: 2}
-  - {fileID: 11400000, guid: f1cba10c1e2db2244a514a8a0a754765, type: 2}
-  - {fileID: 11400000, guid: 4044c5bc72b47a7469a003d9bdc26612, type: 2}
-  - {fileID: 11400000, guid: 4c29be4dd7d650241a6abc38e750f00b, type: 2}
-  - {fileID: 11400000, guid: 58689228dc8867649aab5e08569a8cd7, type: 2}
+  - {fileID: 0}
+  - {fileID: 11400000, guid: f6e144e99c2dd3540ac384bf47fe0e5a, type: 2}
+  - {fileID: 11400000, guid: 1afb64346f34e204898e477b3300463f, type: 2}
+  - {fileID: 11400000, guid: f2401be3499751144ad839595b3934b1, type: 2}
+  - {fileID: 11400000, guid: 8e18d8a6f46966744913f753842db5ee, type: 2}
+  - {fileID: 11400000, guid: f38f0287eff393a42b93ec89a7106de5, type: 2}
+  - {fileID: 11400000, guid: 4b5ff01355712c247842ee74e4b5a40f, type: 2}
+  - {fileID: 11400000, guid: d26325c6f38be7144ae258b0c4345b04, type: 2}
+  - {fileID: 11400000, guid: 50dfe21eeb7c4d94cae1db3d030a2bf0, type: 2}
+  - {fileID: 11400000, guid: 3eef3edf0a60df44b879bb0a2ec00e4b, type: 2}
+  - {fileID: 11400000, guid: 22750ccc3b29ff147abe05c236e8e5a6, type: 2}
+  - {fileID: 11400000, guid: 609a042971f82f84e9c40265eb1a3d93, type: 2}
+  - {fileID: 11400000, guid: 48772e23b42594d4589af58a60b1b61b, type: 2}
+  - {fileID: 11400000, guid: 03d807c547bdb1f41bf38c15df274094, type: 2}
+  - {fileID: 11400000, guid: fd0530642b6c49d4e8b4b26de877f0ab, type: 2}
+  - {fileID: 11400000, guid: 858fc2cf1823c424489c12b33234e70f, type: 2}
   stainMaterial: {fileID: 2100000, guid: 06d133cbf1595e94e95d26ce79ca6a73, type: 2}
   roomMat: {fileID: 2100000, guid: d8cc1f523f686df4f9d925b28997f1ee, type: 2}
