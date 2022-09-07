@@ -6,6 +6,7 @@ using System.Linq;
 public class Building : MonoBehaviour
 {
     [Header("Set Data")]
+    [SerializeField] private Transform notesCover;
     [SerializeField] private Transform GridPrefab;
     [SerializeField] private Grid gridScript;
 
@@ -17,14 +18,18 @@ public class Building : MonoBehaviour
     [Header("Materials")]
     [SerializeField] public Material[] biomeMaterials;
     [SerializeField] public Material[] stainMaterials;
+
+    [Header("Private Data")]
     private bool isShowing = false;
+    private Room currentRoom;
 
     // [Header("private Data")]
     public void setBuild(Room roomScript)
     {
+        currentRoom = roomScript;
         GridPrefab.gameObject.SetActive(true);
-        gridScript.showGridFloor(roomScript.getFloor());
-        GridPrefab.transform.position = roomScript.getBuildGrid().position;
+        gridScript.showGridFloor(currentRoom.getFloor());
+        GridPrefab.transform.position = currentRoom.getBuildGrid().position;
         isShowing = true;
     }
     
@@ -32,6 +37,11 @@ public class Building : MonoBehaviour
     {
         GridPrefab.gameObject.SetActive(false);
         isShowing = false;
+    }
+
+    public void building()
+    {
+        notesCover.transform.position = currentRoom.getBuildGrid().position;
     }
 
     public bool shows()

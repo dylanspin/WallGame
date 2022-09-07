@@ -48,7 +48,7 @@ public class CamDrag : MonoBehaviour
         {
             Vector3 pos = cam.ScreenToViewportPoint(Input.mousePosition) - panOrigin;    
             pos.x *= 1;
-            transform.position = oldPos + -pos * dragSpeed;                                         
+            transform.position = oldPos + -pos * dragSpeed * Time.deltaTime;                                         
         }
 
         transform.position = new Vector3(Mathf.Clamp(transform.position.x, sideBounds[0], sideBounds[1]), Mathf.Clamp(transform.position.y, heightBounds[0], heightBounds[1]), startpos.z + value);

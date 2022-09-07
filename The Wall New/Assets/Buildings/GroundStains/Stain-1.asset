@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: afbe0b210dd303849835206d613ffb92, type: 3}
-  m_Name: Stain-12
+  m_Name: Stain-1
   m_EditorClassIdentifier: 
-  Name: Stain-12
-  spawnObj: {fileID: 2540586063440269949, guid: 443791355e85b764cac782476ecf6c6c, type: 3}
-  spawnObjRoof: {fileID: 0}
+  Name: Stain-1
+  spawnObj: {fileID: 8584959084925877902, guid: 7653ed9f2a1d17d4abe466c83c5464d1, type: 3}
+  spawnObjRoof: {fileID: 1795141490448916164, guid: c526a62814f6dcd419aac48333928bd0, type: 3}
   costBuilding: 0
-  size: 0200000002000000
+  size: 0300000003000000
   health: 1000
   gainItems: 
   gainResources: 

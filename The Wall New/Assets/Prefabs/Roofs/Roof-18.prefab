@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 79187221993045943}
   - component: {fileID: 2127011282281262810}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Roof-18
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48,10 +48,6 @@ MonoBehaviour:
   row2: 0101000000000000000000
   row3: 0100000000000000000000
   row4: 0101010100000000000000
-  rowB1: 0000000000000000000000
-  rowB2: 0000000000000000000000
-  rowB3: 0000000000000000000000
-  rowB4: 0000000000000000000000
 --- !u!1 &8637709570773753300
 GameObject:
   m_ObjectHideFlags: 0
@@ -64,7 +60,8 @@ GameObject:
   - component: {fileID: 2431467938684483493}
   - component: {fileID: 1196819592893764401}
   - component: {fileID: 2830469131581948136}
-  m_Layer: 0
+  - component: {fileID: 5752986405777117358}
+  m_Layer: 6
   m_Name: default
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -148,3 +145,32 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -2432090755550338912, guid: 360093b82084c124ca7906bdf840bfc1, type: 3}
+--- !u!114 &5752986405777117358
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8637709570773753300}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AgentTypeID: 0
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 65
+  m_UseGeometry: 0
+  m_DefaultArea: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.083333336
+  m_BuildHeightMesh: 0
+  m_NavMeshData: {fileID: 23800000, guid: d5c57c416bc6887439e48c67867d84e5, type: 2}

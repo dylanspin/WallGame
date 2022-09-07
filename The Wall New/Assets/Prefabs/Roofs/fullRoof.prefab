@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 6456021781702284480}
   - component: {fileID: 7547434548925018196}
   - component: {fileID: 2724424979986774207}
-  m_Layer: 0
+  - component: {fileID: 9472319584850521}
+  m_Layer: 6
   m_Name: default
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,6 +96,35 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 40.000008, y: 2, z: 100.00002}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &9472319584850521
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1151063024450191025}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AgentTypeID: 0
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_UseGeometry: 0
+  m_DefaultArea: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.083333336
+  m_BuildHeightMesh: 0
+  m_NavMeshData: {fileID: 23800000, guid: 798ef98e44b743442a81243201fa82da, type: 2}
 --- !u!1 &8247408513145620072
 GameObject:
   m_ObjectHideFlags: 0
@@ -105,7 +135,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8736841388779609298}
   - component: {fileID: -1625537854219091716}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: fullRoof
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -143,7 +173,3 @@ MonoBehaviour:
   row2: 0101010101010101010101
   row3: 0101010101010101010101
   row4: 0101010101010101010101
-  rowB1: 0000000000000000000000
-  rowB2: 0000000000000000000000
-  rowB3: 0000000000000000000000
-  rowB4: 0000000000000000000000

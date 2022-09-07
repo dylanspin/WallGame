@@ -69,10 +69,7 @@ public class WallGen : MonoBehaviour
             rowParrent.parent = startPoint;
             for(int b=0; b<wallRoomIds.GetLength(1); b++)
             {
-                if(rooms[i,b] == null)
-                {
-                    rooms[i,b] = Instantiate(roomCreator,spawnPos,Quaternion.Euler(0,0,0),rowParrent) as GameObject;
-                }
+                rooms[i,b] = Instantiate(roomCreator,spawnPos,Quaternion.Euler(0,0,0),rowParrent) as GameObject;//spawns individual rooms in wall
                 setWall(i,b);//sets walls
                 setRoof(i,b);//sets roofs
                 spawnPos.x += roomOffsets.y;
@@ -91,7 +88,16 @@ public class WallGen : MonoBehaviour
                 setDecor(i,b);//set wall decor
                 setBuildingRoom(i,b);
                 int[] wallAllDecor = {wallDecor[i,b,0],wallDecor[i,b,1],wallDecor[i,b,2],wallDecor[i,b,3]};//wall decor array
+                //generates base room with out the buildings
                 rooms[i,b].GetComponent<Room>().generate(wallRoomIds[i,b],wallBroken[i,b],wallAllDecor,roofBroken[i,b],returnGridInfo(i,b),isSpecial[i,b],buildScript,this,i,b);
+            }
+        }
+
+        for(int i=0; i<wallRoomIds.GetLength(0); i++)//goes over it for the third time to spawn buildings
+        {
+            for(int b=0; b<wallRoomIds.GetLength(1); b++)
+            {
+                rooms[i,b].GetComponent<Room>().genBuildings(returnGridInfo(i,b));//generates buildings in the room this is needed later so the rooms above have the floor information
             }
         }
     }
@@ -128,7 +134,7 @@ public class WallGen : MonoBehaviour
         }
     }
 
-    private void setBuildingRoom(int i, int b)
+    private void setBuildingRoom(int i, int b)//sets random spawned buildings in room
     {
         if(isSpecial[i,b] == 0)
         {
@@ -259,7 +265,7 @@ public class WallGen : MonoBehaviour
         int xEnd = Random.Range(xPos,(int)wallDimensions.x);
         int maxLength = Random.Range(2,6);
         int[] counts = new int[2];
-        for(int i=xPos; i<wallDimensions.x; i++)
+        for(int i=xPos; i<wallDimensions.x; i++)////can be better optimized to count the extra height as long as it doesnt go over the max height
         {
             if(counts[0] < maxLength)
             {
@@ -268,13 +274,16 @@ public class WallGen : MonoBehaviour
                 int yEnd = Random.Range(yPos,(int)wallDimensions.y+1);
                 for(int b=yStart; b<yEnd; b++)
                 {
-                    int maxLength2 = Random.Range(3,4);
-                    if(counts[1] < maxLength2)
+                    if(wallRoomIds[i,b] == 0)
                     {
-                        counts[1] ++;
-                        if(isSpecial[i,b] == 0)
+                        int maxLength2 = Random.Range(3,4);
+                        if(counts[1] < maxLength2)
                         {
-                            wallRoomIds[i,b] = newBiome;
+                            counts[1] ++;
+                            if(isSpecial[i,b] == 0)
+                            {
+                                wallRoomIds[i,b] = newBiome;
+                            }
                         }
                     }
                 }
@@ -394,7 +403,26 @@ public class WallGen : MonoBehaviour
         }
     }
 
-    private int[,] returnGridInfo(int i, int b)//gives the building data
+    public bool checkHasRoof(int roomX, int roomY ,int i, int b, int[] size)//for somebuildings who have a roof special object check if it has a roof
+    {
+        if(roomX == rooms.GetLength(0) - 1)//is top of wall so always has roof
+        {
+            return true;
+        }
+        else
+        {
+            FloorInfo floorScript = rooms[roomX+1,roomY].GetComponent<Room>().getFloor();
+            if(floorScript == null)//if room above doesnt have floor
+            {
+                Debug.Log("Has no roof");
+                return false;
+            }
+
+            return floorScript.checkHasRoof(i,b,size);
+        }
+    }
+
+    public int[,] returnGridInfo(int i, int b)//gives the building data
     {
         int[,] data = new int[,] {
             {roomBuild[i,b,0,0],roomBuild[i,b,0,1],roomBuild[i,b,0,2],roomBuild[i,b,0,3],roomBuild[i,b,0,4],roomBuild[i,b,0,5],roomBuild[i,b,0,6],roomBuild[i,b,0,7],roomBuild[i,b,0,8],roomBuild[i,b,0,9],roomBuild[i,b,0,10]},

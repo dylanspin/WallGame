@@ -42,6 +42,29 @@ public class FloorInfo : MonoBehaviour
         }
     }
 
+    public bool checkHasRoof(int i, int b,int[] size)//returs bool if has roof
+    {
+        bool clear = true;
+        for(int c=0; c<size[0]; c++)
+        {
+            for(int d=0; d<size[1]; d++)
+            {
+                if(clear)
+                {
+                    if(!checkIsFloor(i + c,b + d))
+                    {
+                        Debug.Log("Not clear");
+                        clear = false; //if not possible
+                    }
+                }
+            }
+        }
+
+        return clear;
+    }
+
+
+
     public int[,] getBuild()
     {
         return buildData;

@@ -11,7 +11,7 @@ public class FollowCam : MonoBehaviour
     {
         if (target)
         {
-            transform.position = Vector3.Lerp(transform.position, target.position, followSpeed);
+            transform.position = Vector3.Lerp(transform.position, target.position, followSpeed * Time.deltaTime);
         }
     }
 }

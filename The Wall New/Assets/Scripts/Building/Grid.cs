@@ -40,7 +40,7 @@ public class Grid : MonoBehaviour
         }
         else if(buildData > 0)//if build space
         {
-            square.GetComponent<MeshRenderer>().material = materials[2];//green
+            square.GetComponent<MeshRenderer>().material = materials[1];//red //2 = green
         }
         else//if blocked
         {

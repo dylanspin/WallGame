@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 using System.Collections.Generic;
 
 public class Room : MonoBehaviour
@@ -30,6 +31,7 @@ public class Room : MonoBehaviour
     private Building buildScript;
     private FloorInfo floorScript;
     private Biome currentBiome;
+    private NavMeshSurface[] surfaces = new NavMeshSurface[2];
 
     public void generate(int newBiome,int wall,int[] wDecorId,int roof,int[,] buildInfo,int special,Building newBuild,WallGen newScript,int x,int y)
     {
@@ -49,6 +51,7 @@ public class Room : MonoBehaviour
         if(wall > -1)//if not removed
         {   
             spawnedWall = Instantiate(buildScript.Walls[wall],wallPoint.position,Quaternion.Euler(0,0,0),wallPoint) as GameObject;
+            // surfaces[0] = spawnedRoof.transform.GetChild(0).GetComponent<NavMeshSurface>();
         }
 
         setStains(wDecorId);
@@ -58,9 +61,16 @@ public class Room : MonoBehaviour
             spawnedRoof = Instantiate(buildScript.Roofs[roof],roofPoint.position,Quaternion.Euler(0,0,0),roofPoint) as GameObject;
             floorScript = spawnedRoof.GetComponent<FloorInfo>();
             floorScript.setFloorData(buildInfo,gridStart);
+            surfaces[0] = spawnedRoof.transform.GetChild(0).GetComponent<NavMeshSurface>();
         }   
 
         setbiome();
+        // spawnBuildings(buildInfo);
+        // bakeNavMeshes();
+    }
+
+    public void genBuildings(int[,] buildInfo)
+    {
         spawnBuildings(buildInfo);
     }
 
@@ -75,12 +85,20 @@ public class Room : MonoBehaviour
                     if(buildInfo[x,z] > 0)
                     {
                         build currentBuilding = currentBiome.buildings[buildInfo[x,z]];
+                        bool hasRoofSpace = genScript.checkHasRoof(xPos,yPos,x,z,currentBuilding.size);//if there is the same amount of space above the spawned object
+                        Debug.Log(hasRoofSpace);
 
                         Vector3 spawnPos = gridStart.position;
                         spawnPos.z += 4.4f * x;
                         spawnPos.x += 4.4f * z;
 
-                        GameObject spawnB = Instantiate(currentBuilding.spawnObj,spawnPos,Quaternion.Euler(0,0,0),gridStart) as GameObject;
+                        GameObject spawnNewB = currentBuilding.spawnObj;
+                        if(currentBuilding.spawnObjRoof && hasRoofSpace)//if it can spawn roof object
+                        {
+                            spawnNewB = currentBuilding.spawnObjRoof;
+                        }
+
+                        GameObject spawnB = Instantiate(spawnNewB,spawnPos,Quaternion.Euler(0,0,0),gridStart) as GameObject;
                         spawnedBuildings.Add(spawnB);//adds spawned building to spawned building list for later use
 
                         if(currentBuilding.useStain)
@@ -136,7 +154,17 @@ public class Room : MonoBehaviour
         {
             spawnedRoof.transform.GetChild(0).GetComponent<MeshRenderer>().material = setMat;
         }
-        
+    }
+
+    private void bakeNavMeshes()
+    {
+        for(int i=0; i<surfaces.Length; i++)
+        {
+            if(surfaces[i])
+            {
+                surfaces[i].BuildNavMesh();
+            }
+        }
     }
 
     public FloorInfo getFloor()
