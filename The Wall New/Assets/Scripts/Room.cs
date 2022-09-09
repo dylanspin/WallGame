@@ -21,8 +21,10 @@ public class Room : MonoBehaviour
     private int specialId = 0;
     private int xPos = 0;
     private int yPos = 0;
+    private int water = 0;
     private GameObject spawnedWall;
     private GameObject spawnedRoof;
+    private GameObject spawnedWater;
     private GameObject[] spawnedWDecor = new GameObject[5];//wall stains and plants spawn ids
     private List<GameObject> spawnedBuildings = new List<GameObject>();//spawned buildings
 
@@ -33,14 +35,17 @@ public class Room : MonoBehaviour
     private Biome currentBiome;
     private NavMeshSurface[] surfaces = new NavMeshSurface[2];
 
-    public void generate(int newBiome,int wall,int[] wDecorId,int roof,int[,] buildInfo,int special,Building newBuild,WallGen newScript,int x,int y)
+    public void generate(int newBiome,int wall,int[] wDecorId,int roof,int[,] buildInfo,int special,int waterInfo,Building newBuild,WallGen newScript,int x,int y)
     {
         xPos = x;
         yPos = y;
+        water = waterInfo;
         specialId = special;
         genScript = newScript;
         biome = newBiome;
         buildScript = newBuild;
+
+
         if(biome > buildScript.biomes.Length)
         {
             Debug.Log("Error : " + biome);
@@ -64,6 +69,8 @@ public class Room : MonoBehaviour
             surfaces[0] = spawnedRoof.transform.GetChild(0).GetComponent<NavMeshSurface>();
         }   
 
+        spawnWater();
+
         setbiome();
         // spawnBuildings(buildInfo);
         // bakeNavMeshes();
@@ -86,7 +93,6 @@ public class Room : MonoBehaviour
                     {
                         build currentBuilding = currentBiome.buildings[buildInfo[x,z]];
                         bool hasRoofSpace = genScript.checkHasRoof(xPos,yPos,x,z,currentBuilding.size);//if there is the same amount of space above the spawned object
-                        Debug.Log(hasRoofSpace);
 
                         Vector3 spawnPos = gridStart.position;
                         spawnPos.z += 4.4f * x;
@@ -136,6 +142,14 @@ public class Room : MonoBehaviour
         }
     }
 
+    private void spawnWater()
+    {
+        if(water > 0)
+        {
+            spawnedWater = Instantiate(buildScript.Water[water],wallPoint.position,Quaternion.Euler(0,0,0),wallPoint) as GameObject;
+        }
+    }
+
     private void setbiome()
     {
         Material setMat = defaultMaterial;
@@ -165,6 +179,11 @@ public class Room : MonoBehaviour
                 surfaces[i].BuildNavMesh();
             }
         }
+    }
+
+    public NavMeshSurface[] getSurfaces()
+    {
+        return surfaces;
     }
 
     public FloorInfo getFloor()

@@ -13,6 +13,7 @@ public class Building : MonoBehaviour
     [Header("Build Data")]
     [SerializeField] public GameObject[] Roofs;
     [SerializeField] public GameObject[] Walls;
+    [SerializeField] public GameObject[] Water;
     [SerializeField] public Biome[] biomes;
     
     [Header("Materials")]

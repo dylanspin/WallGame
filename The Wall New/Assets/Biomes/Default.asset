@@ -40,6 +40,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  bothBackDecor: 1
   buildings:
   - {fileID: 0}
   - {fileID: 11400000, guid: a2a4eca7f8bc76f45a1b224e5a2bff5f, type: 2}

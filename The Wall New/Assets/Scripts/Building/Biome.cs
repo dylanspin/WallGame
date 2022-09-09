@@ -12,6 +12,7 @@ public class Biome : ScriptableObject
     [Header("Building objects")]
     public GameObject[] WallStains;
     public GameObject[] specialWallDecor;
+    public bool bothBackDecor = false;
     public build[] buildings;
     
     [Header("Materials")]

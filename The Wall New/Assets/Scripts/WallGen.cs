@@ -1,10 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.AI;
 
 public class WallGen : MonoBehaviour
 {
+    [Header("Chances")]
+    [SerializeField] private int maxWaterSpawns = 4;
+    [SerializeField] private int waterChance = 70;
+
     [Header("Set Data")]
     [SerializeField] private Transform startPoint;
     [SerializeField] private GameObject roomCreator;
@@ -24,6 +28,7 @@ public class WallGen : MonoBehaviour
     private int[,,,] roomBuild = new int[10,15,4,11];//Grid Build data
     private int[,] roofBroken = new int[10,15];//floor data
     private int[,] isSpecial =  new int[10,15];//if its indestructable story areae
+    private int[,] isWater =  new int[10,15];//if its water 0 = none 1 = top water 2 = deep water
     private int[] dispenserHeights = new int[2];//height positions of the item dispensers
     private GameObject[,] rooms = new GameObject[10,15];//spawned rooms
 
@@ -36,6 +41,15 @@ public class WallGen : MonoBehaviour
         genWall();
     }
 
+   
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.P))
+        {
+            bakeNavMeshes();
+        }
+    }
+
     private void setStartLengths()
     {
         wallRoomIds = new int[(int)wallDimensions.x,(int)wallDimensions.y];
@@ -44,6 +58,7 @@ public class WallGen : MonoBehaviour
         roomBuild = new int[(int)wallDimensions.x,(int)wallDimensions.y,4,11];
         roofBroken = new int[(int)wallDimensions.x,(int)wallDimensions.y];
         isSpecial = new int[(int)wallDimensions.x,(int)wallDimensions.y];
+        isWater = new int[(int)wallDimensions.x,(int)wallDimensions.y];
         rooms = new GameObject[(int)wallDimensions.x,(int)wallDimensions.y];
         setMaxBiomeChance();//sets the max length for the biome chances
     }
@@ -78,7 +93,7 @@ public class WallGen : MonoBehaviour
             spawnPos.y += roomOffsets.x;
         }
 
-        createPreRooms();
+        createPreRooms();//makes premade stuff like the market
 
         for(int i=0; i<wallRoomIds.GetLength(0); i++)//goes over it for the second time to set last things
         {
@@ -89,7 +104,7 @@ public class WallGen : MonoBehaviour
                 setBuildingRoom(i,b);
                 int[] wallAllDecor = {wallDecor[i,b,0],wallDecor[i,b,1],wallDecor[i,b,2],wallDecor[i,b,3]};//wall decor array
                 //generates base room with out the buildings
-                rooms[i,b].GetComponent<Room>().generate(wallRoomIds[i,b],wallBroken[i,b],wallAllDecor,roofBroken[i,b],returnGridInfo(i,b),isSpecial[i,b],buildScript,this,i,b);
+                rooms[i,b].GetComponent<Room>().generate(wallRoomIds[i,b],wallBroken[i,b],wallAllDecor,roofBroken[i,b],returnGridInfo(i,b),isSpecial[i,b],isWater[i,b],buildScript,this,i,b);
             }
         }
 
@@ -100,6 +115,8 @@ public class WallGen : MonoBehaviour
                 rooms[i,b].GetComponent<Room>().genBuildings(returnGridInfo(i,b));//generates buildings in the room this is needed later so the rooms above have the floor information
             }
         }
+
+        // bakeNavMeshes();//backes new navMesh
     }
 
     private void setDecor(int i, int b)//sets wall decor
@@ -109,7 +126,7 @@ public class WallGen : MonoBehaviour
         {
             wallDecor[i,b,3] = Random.Range(0,setBiome.specialWallDecor.Length);
             
-            if(setBiome.specialWallDecor[wallDecor[i,b,3]] == null)//if doesnt have special decor then add stains
+            if(setBiome.specialWallDecor[wallDecor[i,b,3]] == null || setBiome.bothBackDecor)//if doesnt have special decor then add stains
             {
                 if(Random.Range(0,20) > 10)
                 {
@@ -223,7 +240,6 @@ public class WallGen : MonoBehaviour
                 {
                     wallBroken[i,b] = Random.Range(1,buildScript.Walls.Length);//broken
                 }
-                // room.sprite = roomImages[1];
             }
         }
     }
@@ -297,9 +313,9 @@ public class WallGen : MonoBehaviour
         setDispensers();
         createMarket();
         createStart();
+        createWater();
         //create starting zones
     }
-
 
     /*Still needs to instantiate the market it self*/
     private void createMarket()
@@ -371,6 +387,101 @@ public class WallGen : MonoBehaviour
         }
     }
 
+    private void createWater()
+    {
+        int countWaterSpawns = 0;
+
+        for(int i=0; i<isWater.GetLength(0)/2; i++)
+        {
+            for(int b=0; b<isWater.GetLength(1); b++)
+            {
+                if(countWaterSpawns < maxWaterSpawns)
+                {
+                    if(isWater[i,b] == 0)//if isnt already water
+                    {
+                        if(Random.Range(0,75) > waterChance)
+                        {
+                            if(isSpecial[i,b] == 0)//if it isnt the market or some other special room
+                            {
+                                checkWaterLevels(i,b);
+                                countWaterSpawns ++;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    /*
+        Needs to spread trough out the wall
+        Needs on top a different water spawn
+        Layer below top need be full water spawn
+
+
+        make a list of each layer where the water goes down one and then each time going over them check horizontal then when done clear the list and check going down on those positions 
+        and set the list again to those going down positions
+    */
+
+    private void checkWaterLevels(int i, int b)
+    {
+        isWater[i,b] = 2;
+
+        bool down = true;
+
+        for(int z=i; z>0; z--)//going down from start water pos
+        {
+            if(down)
+            {
+                if(roofBroken[z,b] == 0 || isSpecial[z,b] != 0)
+                {
+                    down = false;
+                }
+                else
+                {
+                    isWater[z-1,b] = 1;
+                }
+            }
+        }
+    }
+
+    private void setHorizontalWater(int i, int b)
+    {
+        bool left = true;
+        bool right = true;
+
+        for(int x=b; x<wallBroken.GetLength(1); x++)
+        {
+            if(right)
+            {
+                if(isWater[i,x] == 0)
+                {
+                    isWater[i,x] = 1;
+                }          
+
+                if(wallBroken[i,x] == 0 || isSpecial[i,x] != 0)
+                {
+                    right = false;
+                }
+            }
+        }
+
+        for(int x=b; x>1; x--)
+        {
+            if(left)
+            {
+                if(isWater[i,x] == 0)
+                {
+                    isWater[i,x] = 1;
+                }          
+                   
+                if(wallBroken[i,x-1] == 0 || isSpecial[i,x-1] != 0)
+                {
+                    left = false;
+                }
+            }
+        }
+    }
 
     /////////for later use with non discovered area
     private void checkUpStart(int xPos,int yPos)//checks if roofs are open if so set to green
@@ -411,15 +522,39 @@ public class WallGen : MonoBehaviour
         }
         else
         {
-            FloorInfo floorScript = rooms[roomX+1,roomY].GetComponent<Room>().getFloor();
+            FloorInfo floorScript = rooms[roomX+1,roomY].GetComponent<Room>().getFloor();//gets the floor data from the roof above the given room
             if(floorScript == null)//if room above doesnt have floor
             {
-                Debug.Log("Has no roof");
                 return false;
             }
 
-            return floorScript.checkHasRoof(i,b,size);
+            return floorScript.checkHasRoof(i,b,size);//check if has roof space above
         }
+    }
+
+    private void bakeNavMeshes()
+    {
+        NavMeshSurface[] roomSurfaces = rooms[0,0].GetComponent<Room>().getSurfaces();  
+        if(roomSurfaces[0])
+        {
+            roomSurfaces[0].BuildNavMesh();
+        }
+
+        // for(int i=0; i<rooms.GetLength(0); i++)
+        // {
+        //     for(int b=0; b<rooms.GetLength(1); b++)
+        //     {
+        //         NavMeshSurface[] roomSurfaces = rooms[i,b].GetComponent<Room>().getSurfaces();  
+        //         if(roomSurfaces[0])
+        //         {
+        //             roomSurfaces[0].BuildNavMesh();
+        //         }
+        //         // if(roomSurfaces[1])
+        //         // {
+        //         //     roomSurfaces[1].BuildNavMesh();
+        //         // }
+        //     }
+        // }
     }
 
     public int[,] returnGridInfo(int i, int b)//gives the building data

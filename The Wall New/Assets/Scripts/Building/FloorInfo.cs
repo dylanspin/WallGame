@@ -53,7 +53,6 @@ public class FloorInfo : MonoBehaviour
                 {
                     if(!checkIsFloor(i + c,b + d))
                     {
-                        Debug.Log("Not clear");
                         clear = false; //if not possible
                     }
                 }

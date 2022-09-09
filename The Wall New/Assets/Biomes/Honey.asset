@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Honey
   m_EditorClassIdentifier: 
   Name: Honey Biome
-  rarity: 10
+  rarity: 5
   WallStains:
   - {fileID: 0}
   - {fileID: 1751571992527935687, guid: 465432bf01b702d479eb115e774e0082, type: 3}
@@ -34,6 +34,18 @@ MonoBehaviour:
   specialWallDecor:
   - {fileID: 0}
   - {fileID: 3781118999483884848, guid: 8c87783a041651d41837059a8cdab3b2, type: 3}
+  - {fileID: 7678344343541428752, guid: f33bb881c6ce1a4428499d7b883e1a53, type: 3}
+  - {fileID: 4823913168887326361, guid: 5bfbddd92784f1c44b7a49af83fafe18, type: 3}
+  - {fileID: 5588227445701944533, guid: ab0cd1277c1b48c4c9f3e3e9f9b29096, type: 3}
+  - {fileID: 5717861582938609899, guid: e11f29c4b9ff5624d8cdc6b39373d261, type: 3}
+  - {fileID: 5320374657485332344, guid: 71883f0a286d6f3488c5b2b855f04ea9, type: 3}
+  - {fileID: 846936612881781567, guid: 68995d54ab872824c8fab0558ed1eb51, type: 3}
+  - {fileID: 3516240277277825396, guid: 70e70bde462909941a30755b387c5958, type: 3}
+  - {fileID: 2630771104295850664, guid: 9ce12f13e16192746b6afb95378fa3ea, type: 3}
+  - {fileID: 7355739320573357403, guid: e90daf95d3654c14fb137d320b756d0c, type: 3}
+  - {fileID: 8059313623564206965, guid: c629808dd91be6c41a53f65d76e8df3a, type: 3}
+  - {fileID: 8534130008827756694, guid: 48f75042fabc46540bc1b02b2857b38f, type: 3}
+  bothBackDecor: 0
   buildings:
   - {fileID: 0}
   - {fileID: 11400000, guid: f6e144e99c2dd3540ac384bf47fe0e5a, type: 2}

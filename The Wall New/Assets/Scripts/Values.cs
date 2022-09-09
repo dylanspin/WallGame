@@ -4,5 +4,5 @@ using UnityEngine;
 
 public static class Values 
 {
-    public static bool debugBiomeMaterials = true;
+    public static bool debugBiomeMaterials = false;
 }

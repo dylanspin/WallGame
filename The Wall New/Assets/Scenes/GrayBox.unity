@@ -1742,6 +1742,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: AiExample
       objectReference: {fileID: 0}
+    - target: {fileID: 5879457725550506707, guid: aac3e402a7f5868498f28e3c59c7a5c1, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5879457725550506708, guid: aac3e402a7f5868498f28e3c59c7a5c1, type: 3}
       propertyPath: m_RootOrder
       value: 9
@@ -3221,6 +3225,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8e44215a8332fc46b8903d32de37017, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxWaterSpawns: 15
+  waterChance: 70
   startPoint: {fileID: 1117883249}
   roomCreator: {fileID: 789805935320657146, guid: b55d792939bf493458d939898b5546c7, type: 3}
   roomOffsets: {x: 15, y: 50}
@@ -3296,6 +3302,10 @@ MonoBehaviour:
   - {fileID: 5888739567500929169, guid: b4b4061b87bc39f4baea38992c27023d, type: 3}
   - {fileID: 2528878457430412280, guid: 669a8b4968022954ca385171fcb7f9d8, type: 3}
   - {fileID: 2334915761858615610, guid: 723862648e7d9d64da58852cffc44dc1, type: 3}
+  Water:
+  - {fileID: 0}
+  - {fileID: 2296690020895729661, guid: ad1c367b15b245f4f92714bdce276852, type: 3}
+  - {fileID: 7235210848182847800, guid: cde2c3a936850dd46a5c890ef61d2caf, type: 3}
   biomes:
   - {fileID: 11400000, guid: 4c9beaef79c60634197522af5e7bc3d2, type: 2}
   - {fileID: 11400000, guid: 66c9787064844be419e1e704104de3c9, type: 2}
