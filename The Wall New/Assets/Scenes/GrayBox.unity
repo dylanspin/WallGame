@@ -3225,7 +3225,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8e44215a8332fc46b8903d32de37017, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxWaterSpawns: 15
+  maxWaterSpawns: 5
   waterChance: 70
   startPoint: {fileID: 1117883249}
   roomCreator: {fileID: 789805935320657146, guid: b55d792939bf493458d939898b5546c7, type: 3}

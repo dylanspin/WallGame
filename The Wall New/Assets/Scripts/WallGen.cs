@@ -391,7 +391,7 @@ public class WallGen : MonoBehaviour
     {
         int countWaterSpawns = 0;
 
-        for(int i=0; i<isWater.GetLength(0)/2; i++)
+        for(int i=3; i<isWater.GetLength(0)/2; i++)//needs to be 0 again
         {
             for(int b=0; b<isWater.GetLength(1); b++)
             {
@@ -403,7 +403,7 @@ public class WallGen : MonoBehaviour
                         {
                             if(isSpecial[i,b] == 0)//if it isnt the market or some other special room
                             {
-                                checkWaterLevels(i,b);
+                                setHorizontalWater(i,b);
                                 countWaterSpawns ++;
                             }
                         }
@@ -414,39 +414,14 @@ public class WallGen : MonoBehaviour
     }
 
     /*
-        Needs to spread trough out the wall
         Needs on top a different water spawn
         Layer below top need be full water spawn
-
-
-        make a list of each layer where the water goes down one and then each time going over them check horizontal then when done clear the list and check going down on those positions 
-        and set the list again to those going down positions
+        Needs to not be on the start layer
     */
-
-    private void checkWaterLevels(int i, int b)
-    {
-        isWater[i,b] = 2;
-
-        bool down = true;
-
-        for(int z=i; z>0; z--)//going down from start water pos
-        {
-            if(down)
-            {
-                if(roofBroken[z,b] == 0 || isSpecial[z,b] != 0)
-                {
-                    down = false;
-                }
-                else
-                {
-                    isWater[z-1,b] = 1;
-                }
-            }
-        }
-    }
 
     private void setHorizontalWater(int i, int b)
     {
+        isWater[i,b] = 1;
         bool left = true;
         bool right = true;
 
@@ -458,6 +433,15 @@ public class WallGen : MonoBehaviour
                 {
                     isWater[i,x] = 1;
                 }          
+
+                if(roofBroken[i,x] != 0 || isSpecial[i,x] != 0)
+                {
+                    if(isWater[i-1,x] == 0)
+                    {
+                        isWater[i-1,x] = 1;
+                        setHorizontalWater(i-1,x);
+                    }
+                }
 
                 if(wallBroken[i,x] == 0 || isSpecial[i,x] != 0)
                 {
@@ -473,8 +457,17 @@ public class WallGen : MonoBehaviour
                 if(isWater[i,x] == 0)
                 {
                     isWater[i,x] = 1;
-                }          
-                   
+                }        
+
+                if(roofBroken[i,x] != 0 || isSpecial[i,x] != 0)
+                {
+                    if(isWater[i-1,x] == 0)
+                    {
+                        isWater[i-1,x] = 1;
+                        setHorizontalWater(i-1,x);
+                    }
+                }
+
                 if(wallBroken[i,x-1] == 0 || isSpecial[i,x-1] != 0)
                 {
                     left = false;
