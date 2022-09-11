@@ -116,7 +116,7 @@ public class WallGen : MonoBehaviour
             }
         }
 
-        // bakeNavMeshes();//backes new navMesh
+        // bakeNavMeshes();//backes new navMesh //disable when testing to make the gen faster
     }
 
     private void setDecor(int i, int b)//sets wall decor
@@ -238,7 +238,21 @@ public class WallGen : MonoBehaviour
                 }
                 else
                 {
-                    wallBroken[i,b] = Random.Range(1,buildScript.Walls.Length);//broken
+                    if(i < wallBroken.GetLength(0)/3)//if bottom half of the wall 
+                    {
+                        if(Random.Range(0,10) > 7)//chance of wall being broken
+                        {
+                            wallBroken[i,b] = Random.Range(2,buildScript.Walls.Length);//always broken
+                        }
+                        else
+                        {
+                            wallBroken[i,b] = Random.Range(1,buildScript.Walls.Length);//chance broken
+                        }
+                    }
+                    else
+                    {
+                        wallBroken[i,b] = Random.Range(1,buildScript.Walls.Length);//chance broken
+                    }
                 }
             }
         }
@@ -260,7 +274,21 @@ public class WallGen : MonoBehaviour
                 }
                 else
                 {
-                    roofBroken[i,b] = Random.Range(1,buildScript.Roofs.Length);//broken
+                    if(i < roofBroken.GetLength(0)/2)//if bottom half of the wall 
+                    {
+                        if(Random.Range(0,10) > 7)//chance of floor being broken
+                        {
+                            roofBroken[i,b] = Random.Range(2,buildScript.Roofs.Length);//always broken
+                        }
+                        else
+                        {
+                            roofBroken[i,b] = Random.Range(1,buildScript.Roofs.Length);//chance broken
+                        }
+                    }
+                    else
+                    {
+                        roofBroken[i,b] = Random.Range(1,buildScript.Roofs.Length);//chance broken
+                    }
                 }
             }
         }
@@ -391,7 +419,7 @@ public class WallGen : MonoBehaviour
     {
         int countWaterSpawns = 0;
 
-        for(int i=3; i<isWater.GetLength(0)/2; i++)//needs to be 0 again
+        for(int i=0; i<isWater.GetLength(0)/2; i++)
         {
             for(int b=0; b<isWater.GetLength(1); b++)
             {
@@ -403,7 +431,7 @@ public class WallGen : MonoBehaviour
                         {
                             if(isSpecial[i,b] == 0)//if it isnt the market or some other special room
                             {
-                                setHorizontalWater(i,b);
+                                setHorizontalWater(i,b,true);
                                 countWaterSpawns ++;
                             }
                         }
@@ -419,27 +447,27 @@ public class WallGen : MonoBehaviour
         Needs to not be on the start layer
     */
 
-    private void setHorizontalWater(int i, int b)
+    private void setHorizontalWater(int i, int b,bool first)
     {
-        isWater[i,b] = 1;
+        setWater(i,b,first);
         bool left = true;
         bool right = true;
 
-        for(int x=b; x<wallBroken.GetLength(1); x++)
+        for(int x=b; x<wallBroken.GetLength(1); x++)//checks the right of the water source
         {
             if(right)
             {
                 if(isWater[i,x] == 0)
                 {
-                    isWater[i,x] = 1;
+                    setWater(i,x,first);
                 }          
 
-                if(roofBroken[i,x] != 0 || isSpecial[i,x] != 0)
+                if(roofBroken[i,x] != 0 || isSpecial[i,x] != 0)//if there is a hole in the floor
                 {
                     if(isWater[i-1,x] == 0)
                     {
-                        isWater[i-1,x] = 1;
-                        setHorizontalWater(i-1,x);
+                        setWater(i-1,x,false);
+                        setHorizontalWater(i-1,x,false);
                     }
                 }
 
@@ -449,22 +477,22 @@ public class WallGen : MonoBehaviour
                 }
             }
         }
-
-        for(int x=b; x>1; x--)
+        
+        for(int x=b; x>1; x--)//checks the left of the water source
         {
             if(left)
             {
                 if(isWater[i,x] == 0)
                 {
-                    isWater[i,x] = 1;
+                    setWater(i,x,first);
                 }        
 
-                if(roofBroken[i,x] != 0 || isSpecial[i,x] != 0)
+                if(roofBroken[i,x] != 0 || isSpecial[i,x] != 0)//if there is a hole in the floor
                 {
                     if(isWater[i-1,x] == 0)
                     {
-                        isWater[i-1,x] = 1;
-                        setHorizontalWater(i-1,x);
+                        setWater(i-1,x,false);
+                        setHorizontalWater(i-1,x,false);
                     }
                 }
 
@@ -473,6 +501,18 @@ public class WallGen : MonoBehaviour
                     left = false;
                 }
             }
+        }
+    }
+
+    private void setWater(int i, int b, bool first)
+    {
+        if(first)
+        {
+            isWater[i,b] = 2;
+        }
+        else
+        {
+            isWater[i,b] = 1;
         }
     }
 
@@ -532,22 +572,6 @@ public class WallGen : MonoBehaviour
         {
             roomSurfaces[0].BuildNavMesh();
         }
-
-        // for(int i=0; i<rooms.GetLength(0); i++)
-        // {
-        //     for(int b=0; b<rooms.GetLength(1); b++)
-        //     {
-        //         NavMeshSurface[] roomSurfaces = rooms[i,b].GetComponent<Room>().getSurfaces();  
-        //         if(roomSurfaces[0])
-        //         {
-        //             roomSurfaces[0].BuildNavMesh();
-        //         }
-        //         // if(roomSurfaces[1])
-        //         // {
-        //         //     roomSurfaces[1].BuildNavMesh();
-        //         // }
-        //     }
-        // }
     }
 
     public int[,] returnGridInfo(int i, int b)//gives the building data

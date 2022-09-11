@@ -9,12 +9,17 @@ public class Biome : ScriptableObject
     public string Name = "Building";
     public int rarity = 1;
 
+    [Header("Biome Settings")]
+    public bool bothBackDecor = false;
+    public bool canBeUnderWater = true;
+
     [Header("Building objects")]
     public GameObject[] WallStains;
     public GameObject[] specialWallDecor;
-    public bool bothBackDecor = false;
     public build[] buildings;
     
+
+
     [Header("Materials")]
     public Material stainMaterial;
     public Material roomMat;
