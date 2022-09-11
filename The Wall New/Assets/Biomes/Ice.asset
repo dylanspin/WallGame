@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Ice biome
   rarity: 3
+  bothBackDecor: 0
+  canBeUnderWater: 1
   WallStains:
   - {fileID: 0}
   - {fileID: 1751571992527935687, guid: 465432bf01b702d479eb115e774e0082, type: 3}

@@ -116,7 +116,7 @@ public class WallGen : MonoBehaviour
             }
         }
 
-        // bakeNavMeshes();//backes new navMesh //disable when testing to make the gen faster
+        bakeNavMeshes();//backes new navMesh //disable when testing to make the gen faster
     }
 
     private void setDecor(int i, int b)//sets wall decor
@@ -432,6 +432,7 @@ public class WallGen : MonoBehaviour
                             if(isSpecial[i,b] == 0)//if it isnt the market or some other special room
                             {
                                 setHorizontalWater(i,b,true);
+                                isWater[i,b] = 3;
                                 countWaterSpawns ++;
                             }
                         }
@@ -442,8 +443,6 @@ public class WallGen : MonoBehaviour
     }
 
     /*
-        Needs on top a different water spawn
-        Layer below top need be full water spawn
         Needs to not be on the start layer
     */
 
@@ -457,17 +456,20 @@ public class WallGen : MonoBehaviour
         {
             if(right)
             {
-                if(isWater[i,x] == 0)
+                if(isWater[i,x] == 0 && isSpecial[i,x] == 0)
                 {
                     setWater(i,x,first);
                 }          
 
-                if(roofBroken[i,x] != 0 || isSpecial[i,x] != 0)//if there is a hole in the floor
+                if(roofBroken[i,x] != 0 || isSpecial[i,x] == 0)//if there is a hole in the floor
                 {
-                    if(isWater[i-1,x] == 0)
+                    if(i != 0)//if not bottom layer
                     {
-                        setWater(i-1,x,false);
-                        setHorizontalWater(i-1,x,false);
+                        if(isWater[i-1,x] == 0)//if isnt already water
+                        {
+                            setWater(i-1,x,false);
+                            setHorizontalWater(i-1,x,false);
+                        }
                     }
                 }
 
@@ -478,21 +480,24 @@ public class WallGen : MonoBehaviour
             }
         }
         
-        for(int x=b; x>1; x--)//checks the left of the water source
+        for(int x=b; x>0; x--)//checks the left of the water source
         {
             if(left)
             {
-                if(isWater[i,x] == 0)
+                if(isWater[i,x] == 0 && isSpecial[i,x] == 0)
                 {
                     setWater(i,x,first);
                 }        
 
-                if(roofBroken[i,x] != 0 || isSpecial[i,x] != 0)//if there is a hole in the floor
+                if(roofBroken[i,x] != 0 || isSpecial[i,x] == 0)//if there is a hole in the floor
                 {
-                    if(isWater[i-1,x] == 0)
+                    if(i != 0)//if not bottom layer
                     {
-                        setWater(i-1,x,false);
-                        setHorizontalWater(i-1,x,false);
+                        if(isWater[i-1,x] == 0)//if isnt already water
+                        {
+                            setWater(i-1,x,false);
+                            setHorizontalWater(i-1,x,false);
+                        }
                     }
                 }
 
